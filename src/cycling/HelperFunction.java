@@ -1,19 +1,21 @@
-package cycling;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HelperFunction {
-    public void getRacesNames(HashMap<Integer, Race> races) {
-//        for (int i=0;i<races.values().stream().map(e->e.getName()).size();i++){
-//            System.out.println(i);
-//        }
+    public ArrayList<String> getRacesNames(HashMap<Integer, Race> races) {
+        ArrayList<String> racesNames = new ArrayList<>();
+        for (Race race : races.values()) {
+            racesNames.add(race.getName());
+        }
+        return racesNames;
     }
-    
+
     public static void main(String[] args) {
-//        HashMap<Integer, Race> races = new HashMap<Integer, Race>();
-//        races.put(1, new Race("F","F"));
-//        HelperFunction hf = new HelperFunction();
-//        hf.getRacesNames(races);
+        HashMap<Integer, Race> races = new HashMap<Integer, Race>();
+        races.put(1, new Race("F", "F"));
+        HelperFunction hf = new HelperFunction();
+        hf.getRacesNames(races);
     }
 }
 

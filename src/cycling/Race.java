@@ -1,4 +1,3 @@
-package cycling;
 
 public class Race {
     private static int counter = 0;
@@ -23,7 +22,7 @@ public class Race {
     public String getName(){
         return name;
     }
-    }
+}
 
     public Race getRaceByID(raceID){
         for (Race race : races.values())
