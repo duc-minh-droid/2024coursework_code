@@ -13,4 +13,13 @@ public class Race {
         this.description = description;
         this.raceID = counter++;
     }
-}
+
+    public int getRaceID() {
+        return raceID;
+    }
+
+    //get name
+    public String getRacesName(){
+        return name;
+    }
+    }
