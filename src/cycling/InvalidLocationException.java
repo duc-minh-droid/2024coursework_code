@@ -1,4 +1,3 @@
-package cycling;
 
 /**
  * Thrown when attempting to assign a location outside the bounds of the stage,
@@ -27,4 +26,3 @@ public class InvalidLocationException extends Exception {
 	}
 
 }
-

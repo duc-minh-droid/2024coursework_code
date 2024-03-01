@@ -1,4 +1,3 @@
-package cycling;
 
 public class intermediateSprintCheckpoint extends Checkpoint {
 

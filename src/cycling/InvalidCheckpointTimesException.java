@@ -1,9 +1,10 @@
-package cycling;
 
 /**
  * Each race result should contains the times for each checkpoint (mountain and
- * sprint) within a stage, plus the start time and the finish time. The list of checkpoint times must
- * follow its chronological sequence, i.e., checkpoint_i {@literal <=} checkpoint_i+1.
+ * sprint) within a stage, plus the start time and the finish time. The list of
+ * checkpoint times must
+ * follow its chronological sequence, i.e., checkpoint_i {@literal <=}
+ * checkpoint_i+1.
  * 
  * @author Diogo Pacheco
  * @version 2.0

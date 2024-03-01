@@ -1,11 +1,11 @@
-package cycling;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * BadMiniCyclingPortal is a minimally compiling, but non-functioning implementor
+ * BadMiniCyclingPortal is a minimally compiling, but non-functioning
+ * implementor
  * of the MiniCyclingPortal interface.
  * 
  * @author Diogo Pacheco
@@ -13,7 +13,7 @@ import java.time.LocalTime;
  *
  */
 public class BadMiniCyclingPortalImpl implements MiniCyclingPortal {
-	
+
 	@Override
 	public int[] getRaceIds() {
 		// TODO Auto-generated method stub

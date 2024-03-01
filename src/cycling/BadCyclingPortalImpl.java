@@ -1,10 +1,8 @@
-package cycling;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
-
 
 /**
  * BadCyclingPortal is a minimally compiling, but non-functioning implementor
@@ -252,7 +250,5 @@ public class BadCyclingPortalImpl implements CyclingPortal {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 }

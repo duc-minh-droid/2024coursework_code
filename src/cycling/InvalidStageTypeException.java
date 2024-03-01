@@ -1,7 +1,7 @@
-package cycling;
 
 /**
- * Thrown when attempting to add checkpoints (sprints or mountains) to a time-trial stage.
+ * Thrown when attempting to add checkpoints (sprints or mountains) to a
+ * time-trial stage.
  * 
  * @author Diogo Pacheco
  * @version 2.0

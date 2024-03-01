@@ -1,7 +1,7 @@
-package cycling;
 
 /**
- * This enum is used to represent the checkpoint types within stages on road races.
+ * This enum is used to represent the checkpoint types within stages on road
+ * races.
  * 
  * @author Diogo Pacheco
  * @version 2.0

@@ -1,4 +1,3 @@
-package cycling;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -100,10 +99,11 @@ public interface MiniCyclingPortal extends Serializable {
 	 *                                  system.
 	 * @throws IllegalNameException     If the name already exists in the platform.
 	 * @throws InvalidNameException     If the name is null, empty, has more than 30
-	 *                              	characters, or has white spaces.
+	 *                                  characters, or has white spaces.
 	 * @throws InvalidLengthException   If the length is less than 5km.
 	 */
-	int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type) 
+	int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
+			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException;
 
 	/**
@@ -113,7 +113,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 * exceptions are thrown.
 	 * 
 	 * @param raceId The ID of the race being queried.
-	 * @return An array of stage IDs ordered (from first to last) by their sequence in the
+	 * @return An array of stage IDs ordered (from first to last) by their sequence
+	 *         in the
 	 *         race or an empty array if none exists.
 	 * @throws IDNotRecognisedException If the ID does not match to any race in the
 	 *                                  system.
@@ -157,7 +158,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 *                        the stage.
 	 * @param type            The category of the climb - {@link CheckpointType#C4},
 	 *                        {@link CheckpointType#C3}, {@link CheckpointType#C2},
-	 *                        {@link CheckpointType#C1}, or {@link CheckpointType#HC}.
+	 *                        {@link CheckpointType#C1}, or
+	 *                        {@link CheckpointType#HC}.
 	 * @param averageGradient The average gradient for the climb.
 	 * @param length          The length of the climb in kilometre.
 	 * @return The ID of the checkpoint created.
@@ -170,7 +172,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 *                                    checkpoint.
 	 */
 	int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
-			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException;
+			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
+			InvalidStageTypeException;
 
 	/**
 	 * Adds an intermediate sprint to a stage.
@@ -178,7 +181,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 * The state of this MiniCyclingPortal must be unchanged if any
 	 * exceptions are thrown.
 	 * 
-	 * @param stageId  The ID of the stage to which the intermediate sprint checkpoint
+	 * @param stageId  The ID of the stage to which the intermediate sprint
+	 *                 checkpoint
 	 *                 is being added.
 	 * @param location The kilometre location where the intermediate sprint finishes
 	 *                 within the stage.
@@ -201,7 +205,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 * exceptions are thrown.
 	 * 
 	 * @param checkpointId The ID of the checkpoint to be removed.
-	 * @throws IDNotRecognisedException   If the ID does not match to any checkpoint in
+	 * @throws IDNotRecognisedException   If the ID does not match to any checkpoint
+	 *                                    in
 	 *                                    the system.
 	 * @throws InvalidStageStateException If the stage is "waiting for results".
 	 */
@@ -228,7 +233,8 @@ public interface MiniCyclingPortal extends Serializable {
 	 * exceptions are thrown.
 	 * 
 	 * @param stageId The ID of the stage being queried.
-	 * @return The list of checkpoint IDs ordered (from first to last) by their location in the
+	 * @return The list of checkpoint IDs ordered (from first to last) by their
+	 *         location in the
 	 *         stage.
 	 * @throws IDNotRecognisedException If the ID does not match to any stage in the
 	 *                                  system.
@@ -323,27 +329,40 @@ public interface MiniCyclingPortal extends Serializable {
 	 * The state of this MiniCyclingPortal must be unchanged if any
 	 * exceptions are thrown.
 	 * 
-	 * @param stageId     The ID of the stage the result refers to.
-	 * @param riderId     The ID of the rider.
-	 * @param checkpointTimes An array of times at which the rider reached each of the
-	 *                    checkpoints of the stage, including the start time and the
-	 *                    finish line.
-	 * @throws IDNotRecognisedException    If the ID does not match to any rider or
-	 *                                     stage in the system.
-	 * @throws DuplicatedResultException   Thrown if the rider has already a result
-	 *                                     for the stage. Each rider can have only
-	 *                                     one result per stage.
-	 * @throws InvalidCheckpointTimesException Thrown if the length of checkpointTimes is
-	 *                                     not equal to n+2, where n is the number
-	 *                                     of checkpoints in the stage; +2 represents
-	 *                                     the start time and the finish time of the
-	 *                                     stage.
-	 * @throws InvalidStageStateException  Thrown if the stage is not "waiting for
-	 *                                     results". Results can only be added to a
-	 *                                     stage while it is "waiting for results".
+	 * @param stageId         The ID of the stage the result refers to.
+	 * @param riderId         The ID of the rider.
+	 * @param checkpointTimes An array of times at which the rider reached each of
+	 *                        the
+	 *                        checkpoints of the stage, including the start time and
+	 *                        the
+	 *                        finish line.
+	 * @throws IDNotRecognisedException        If the ID does not match to any rider
+	 *                                         or
+	 *                                         stage in the system.
+	 * @throws DuplicatedResultException       Thrown if the rider has already a
+	 *                                         result
+	 *                                         for the stage. Each rider can have
+	 *                                         only
+	 *                                         one result per stage.
+	 * @throws InvalidCheckpointTimesException Thrown if the length of
+	 *                                         checkpointTimes is
+	 *                                         not equal to n+2, where n is the
+	 *                                         number
+	 *                                         of checkpoints in the stage; +2
+	 *                                         represents
+	 *                                         the start time and the finish time of
+	 *                                         the
+	 *                                         stage.
+	 * @throws InvalidStageStateException      Thrown if the stage is not "waiting
+	 *                                         for
+	 *                                         results". Results can only be added
+	 *                                         to a
+	 *                                         stage while it is "waiting for
+	 *                                         results".
 	 */
 	void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpointTimes)
-			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException, InvalidStageStateException;
+			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException,
+			InvalidStageStateException;
 
 	/**
 	 * Get the times of a rider in a stage.
@@ -382,10 +401,10 @@ public interface MiniCyclingPortal extends Serializable {
 	 * 
 	 * @param stageId The ID of the stage the result refers to.
 	 * @param riderId The ID of the rider.
-	 * @return The adjusted elapsed time for the rider in the stage. Return null if 
-	 * 		  there is no result registered for the rider in the stage.
-	 * @throws IDNotRecognisedException   If the ID does not match to any rider or
-	 *                                    stage in the system.
+	 * @return The adjusted elapsed time for the rider in the stage. Return null if
+	 *         there is no result registered for the rider in the stage.
+	 * @throws IDNotRecognisedException If the ID does not match to any rider or
+	 *                                  stage in the system.
 	 */
 	LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId)
 			throws IDNotRecognisedException;
