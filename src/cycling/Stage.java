@@ -2,20 +2,44 @@
 import java.time.LocalDateTime;
 
 public class Stage {
+    private static int counter = 0;
     private int stageID;
+    private int raceID;
     private String stageName;
     private String description;
     private double length;
     private LocalDateTime startTime;
     private StageType type;
 
-    public Stage(int stageID, String stageName, String description, double length,
+    public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
-        this.stageID = stageID;
+        this.stageID = counter++;
+        this.raceID = raceID;
         this.stageName = stageName;
+        this.description = description;
         this.length = length;
         this.startTime = startTime;
         this.type = type;
     }
     
+    public int getStageID(){
+        return stageID;
+    }
+
+    public String getStageName(){
+        return stageName;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public double getLength(){
+        return length;
+    }
+
+    public StageType getType(){
+        return type;
+    }
+
 }

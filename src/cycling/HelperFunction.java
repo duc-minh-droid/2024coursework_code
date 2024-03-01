@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.util.Iterator;
 
 public class HelperFunction {
@@ -14,13 +14,14 @@ public class HelperFunction {
         return racesNames;
     }
 
-    public int[] convertToIntArray(List<Integer> integerList) {
-        int[] result = new int[integerList.size()];
-        Iterator iterator = integerList.iterator();
-        for (int i = 0; i < result.length; i++) {
-            result[i] = (int) iterator.next();
+    public ArrayList<String> getStagesNames(HashMap<Integer, Race> races) {
+        ArrayList<String> stagesNames = new ArrayList<>();
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                stagesNames.add(stage.getStageName());
+            }
         }
-        return result;
+        return stagesNames;
     }
 
     public static void main(String[] args) {
@@ -29,4 +30,17 @@ public class HelperFunction {
         HelperFunction hf = new HelperFunction();
         hf.getRacesNames(races);
     }
+
+    public static Stage getStageByID(int stageID, HashMap<Integer, Race> races) {
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                if (stage.getStageID() == stageID) {
+                    return stage;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
 }

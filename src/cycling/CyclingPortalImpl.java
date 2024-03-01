@@ -3,30 +3,26 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Iterator;
+
 
 public class CyclingPortalImpl implements CyclingPortal {
-    private HashMap<Integer, Race> races = new HashMap<Integer, Race>();
+    private static HashMap<Integer, Race> races = new HashMap<Integer, Race>();
 
-    // public static void main(String[] args) throws InvalidNameException, IllegalNameException{
-    //     CyclingPortal cp = new CyclingPortalImpl();
-    //     int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
-    //     int[] ids = cp.getRaceIds();
-    //     for (int id:ids) {
-    //         System.out.print(id);
-    //     }
-
-    // }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException, InvalidLengthException{
         CyclingPortal cp = new CyclingPortalImpl();
-        try {
-            int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
-            int[] ids = cp.getRaceIds();
-            for (int id:ids) {
-                System.out.print(id);
-            }
-        } catch (IllegalNameException | InvalidNameException e)}
-    
-    
+        int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
+        int[] ids = cp.getRaceIds();
+        for (int id:ids) {
+            // System.out.print(id);
+        }
+        int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null, null);
+        int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 6.0, null, null);
+        int[] stageIDs = cp.getRaceStages(LeMansID);
+        cp.removeStageById(LeBonkID);
+        System.out.println(cp.getNumberOfStages(LeMansID));
+
+    }
 
     public int[] getRaceIds() {
         int[] raceIds = new int[races.size()];
@@ -64,7 +60,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (race == null) {
             throw new IDNotRecognisedException("Race not found");
         }
-        String details = "Race's ID: "         + race.getRaceID()        +"\n" +
+        String details = "Race's ID: "       + race.getRaceID()        +"\n" +
                          "Name: "            + race.getName()          +"\n" +
                          "Description: "     + race.getDescription()   +"\n" + 
                          "Number of Stage: " + race.getNumberOfStage() +"\n" + 
@@ -80,28 +76,65 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
-
-        return 0;
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");}
+        return race.getNumberOfStage();
     }
 
     public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
             StageType type)
             throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-                
-                return 0;
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");}
+        if (stageName== null || stageName.isEmpty()) {
+            throw new InvalidNameException("Stage's name can not be empty");
+        }
+        if (stageName.length() > 30) {
+            throw new InvalidNameException("Stage's name can not exceed 30 character");
+        }
+        if (stageName.contains(" ")) {
+            throw new InvalidNameException("Stage's name can not contain white space");
+        }
+        if (length < 5.0){
+            throw new InvalidLengthException ("The stage's length must be longer than 5km");
+        }
+        HelperFunction hf = new HelperFunction();
+        if (hf.getStagesNames(races).contains(stageName)){
+            throw new IllegalNameException("This stage name is already existing");
+        }
+
+        
+        return race.addStageToRace(raceId, stageName, description, length, startTime, type);
 
     }
 
     public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-        return null;
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");}
+        int[] raceStageIDs = new int[race.getNumberOfStage()];
+        int index = 0;
+        for (Stage stage : race.getStages()) {
+            raceStageIDs[index] = stage.getStageID();
+            index++;
+        }
+        return raceStageIDs;
     }
 
     public double getStageLength(int stageId) throws IDNotRecognisedException {
-        return 0;
+        
+        // if (stageId)
+        HelperFunction hf = new HelperFunction();
+        Stage stage = hf.getStageByID(stageId, races);
+        return stage.getLength();
     }
 
     public void removeStageById(int stageId) throws IDNotRecognisedException {
-
+        HelperFunction hf = new HelperFunction();
+        Stage stage = hf.getStageByID(stageId, races);
+        
     }
 
     public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
