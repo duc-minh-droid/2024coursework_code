@@ -1,4 +1,3 @@
-package cycling;
 
 import java.time.LocalDateTime;
 
@@ -10,8 +9,8 @@ public class Stage {
     private LocalDateTime startTime;
     private StageType type;
 
-    public Stage( int stageID, String stageName, String description, double length,
-                  LocalDateTime startTime,StageType type ){
+    public Stage(int stageID, String stageName, String description, double length,
+            LocalDateTime startTime, StageType type) {
         this.stageID = stageID;
         this.stageName = stageName;
         this.length = length;

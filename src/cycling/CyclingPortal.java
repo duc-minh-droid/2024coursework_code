@@ -1,4 +1,3 @@
-package cycling;
 
 import java.time.LocalTime;
 
@@ -70,10 +69,13 @@ public interface CyclingPortal extends MiniCyclingPortal {
 	 * exceptions are thrown.
 	 * 
 	 * @param raceId The ID of the race being queried.
-	 * @return An array of riders' points (i.e., the sum of their points in all stages
-	 *         of the race), sorted by the total adjusted elapsed time. An empty array if
+	 * @return An array of riders' points (i.e., the sum of their points in all
+	 *         stages
+	 *         of the race), sorted by the total adjusted elapsed time. An empty
+	 *         array if
 	 *         there is no result for any stage in the race. These points should
-	 *         match the riders returned by {@link #getRidersGeneralClassificationRank(int)}.
+	 *         match the riders returned by
+	 *         {@link #getRidersGeneralClassificationRank(int)}.
 	 * @throws IDNotRecognisedException If the ID does not match any race in the
 	 *                                  system.
 	 */
@@ -87,7 +89,8 @@ public interface CyclingPortal extends MiniCyclingPortal {
 	 * 
 	 * @param raceId The ID of the race being queried.
 	 * @return An array of riders' mountain points (i.e., the sum of their mountain
-	 *         points in all stages of the race), sorted by the total adjusted elapsed time.
+	 *         points in all stages of the race), sorted by the total adjusted
+	 *         elapsed time.
 	 *         An empty array if there is no result for any stage in the race. These
 	 *         points should match the riders returned by
 	 *         {@link #getRidersGeneralClassificationRank(int)}.

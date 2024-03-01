@@ -7,33 +7,31 @@ public class Race {
     private int numberOfStages;
     private double length;
 
-    public Race( String name, String description) {
+    public Race(String name, String description) {
         this.name = name;
         this.description = description;
         this.raceID = counter++;
     }
 
-
     public int getRaceID() {
         return raceID;
     }
 
-    //get name
-    public String getName(){
+    // get name
+    public String getName() {
         return name;
     }
-}
 
-    public Race getRaceByID(raceID){
-        for (Race race : races.values())
-            if (race.getRaceID() == raceID) {
-                return race;
-            }
-        return null;
+    public String getDescription() {
+        return description;
     }
 
+    public int getNumberOfStage(){
+        return numberOfStages;
+    }
 
+    public double getLength(){
+        return length;
+    }
 
-
-
-
+}

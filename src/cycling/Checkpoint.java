@@ -1,4 +1,3 @@
-package cycling;
 
 public class Checkpoint {
     private int stageId;

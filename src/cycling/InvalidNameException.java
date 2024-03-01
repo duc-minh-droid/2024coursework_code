@@ -1,7 +1,7 @@
-package cycling;
 
 /**
- * Thrown when attempting to assign an entity name null, empty or having more than
+ * Thrown when attempting to assign an entity name null, empty or having more
+ * than
  * the system limit of characters. A name must be a single word, i.e., no
  * white spaces allowed.
  * 
