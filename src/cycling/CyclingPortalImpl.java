@@ -32,11 +32,10 @@ public class CyclingPortalImpl implements CyclingPortal {
             throw new InvalidNameException("Race's name can not exceed 30 character");}
         if (name.contains(" ")){
             throw new InvalidNameException("Race's name can not contain white space");}
-
         for (Race race: races.values()){
             if(race.getName().equals(name)){
                 throw new IllegalNameException(("Race's name already existing"));
-            }
+            }}
 
 
 
