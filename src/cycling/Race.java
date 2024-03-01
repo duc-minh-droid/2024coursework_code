@@ -24,13 +24,7 @@ public class Race {
     }
 }
 
-    public Race getRaceByID(raceID){
-        for (Race race : races.values())
-            if (race.getRaceID() == raceID) {
-                return race;
-            }
-        return null;
-    }
+
 
 
 
