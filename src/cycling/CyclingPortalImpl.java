@@ -7,15 +7,26 @@ import java.util.HashMap;
 public class CyclingPortalImpl implements CyclingPortal {
     private HashMap<Integer, Race> races = new HashMap<Integer, Race>();
 
+    // public static void main(String[] args) throws InvalidNameException, IllegalNameException{
+    //     CyclingPortal cp = new CyclingPortalImpl();
+    //     int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
+    //     int[] ids = cp.getRaceIds();
+    //     for (int id:ids) {
+    //         System.out.print(id);
+    //     }
+
+    // }
     public static void main(String[] args) {
         CyclingPortal cp = new CyclingPortalImpl();
-        int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
-        int[] ids = cp.getRaceIds();
-        for (int id:ids) {
-            System.out.print(id);
-        }
-
-    }
+        try {
+            int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
+            int[] ids = cp.getRaceIds();
+            for (int id:ids) {
+                System.out.print(id);
+            }
+        } catch (IllegalNameException | InvalidNameException e)}
+    
+    
 
     public int[] getRaceIds() {
         int[] raceIds = new int[races.size()];
@@ -28,15 +39,15 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
 
-        // if (name == null || name.isEmpty()) {
-        //     throw new InvalidNameException("Race's name can not be empty");
-        // }
-        // if (name.length() > 30) {
-        //     throw new InvalidNameException("Race's name can not exceed 30 character");
-        // }
-        // if (name.contains(" ")) {
-        //     throw new InvalidNameException("Race's name can not contain white space");
-        // }
+        if (name == null || name.isEmpty()) {
+            throw new InvalidNameException("Race's name can not be empty");
+        }
+        if (name.length() > 30) {
+            throw new InvalidNameException("Race's name can not exceed 30 character");
+        }
+        if (name.contains(" ")) {
+            throw new InvalidNameException("Race's name can not contain white space");
+        }
 
         HelperFunction hf = new HelperFunction();
         if (hf.getRacesNames(races).contains(name)) {
@@ -62,17 +73,23 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public void removeRaceById(int raceId) throws IDNotRecognisedException {
-
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");}
+        races.remove(raceId);
     }
 
     public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
+
         return 0;
     }
 
     public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
             StageType type)
             throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-        return 0;
+                
+                return 0;
+
     }
 
     public int[] getRaceStages(int raceId) throws IDNotRecognisedException {

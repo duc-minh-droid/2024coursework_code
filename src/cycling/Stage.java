@@ -17,4 +17,5 @@ public class Stage {
         this.startTime = startTime;
         this.type = type;
     }
+    
 }
