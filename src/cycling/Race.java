@@ -14,6 +14,7 @@ public class Race {
         this.raceID = counter++;
     }
 
+<<<<<<< Updated upstream
     public int getRaceID() {
         return raceID;
     }
@@ -23,3 +24,9 @@ public class Race {
         return name;
     }
     }
+=======
+    public String getName() {
+        return name;
+    }
+}
+>>>>>>> Stashed changes
