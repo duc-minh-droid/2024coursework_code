@@ -9,7 +9,8 @@ public class CyclingPortalImpl implements CyclingPortal {
     private HashMap<Integer, Race> races = new HashMap<Integer, Race>();
 
     public static void main(String[] args) {
-        System.out.println(getRaceIds());
+        CyclingPortal cp = new CyclingPortalImpl();
+        cp.getRaceIds();
 
     }
 
@@ -18,7 +19,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         // TODO Auto-generated method stub
 
         int[] raceIds = races.keySet().stream().mapToInt(Integer::intValue).toArray();
-
+        System.out.println(raceIds.toString());
         return new int[] {};
     }
 
