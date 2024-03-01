@@ -37,6 +37,7 @@ public class CyclingPortalImpl implements CyclingPortal {
             if(race.getRacesName().equals(name)){
                 throw new IllegalNameException(("Race's name already existing"));
             }
+           
         }
 =======
 //            int raceId = generateUniqueId();
