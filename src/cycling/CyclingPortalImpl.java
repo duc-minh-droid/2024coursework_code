@@ -32,6 +32,14 @@ public class CyclingPortalImpl implements CyclingPortal {
             throw new InvalidNameException("Race's name can not exceed 30 character");}
         if (name.contains(" ")){
             throw new InvalidNameException("Race's name can not contain white space");}
+            int raceId = generateUniqueId();
+    
+            // Create a new Race object and add it to the list of races
+            Race newRace = new Race(raceId, name, description);
+            races.add(newRace);
+            
+            // Return the unique ID of the created race
+            return raceId;
 
 
         return 0;
