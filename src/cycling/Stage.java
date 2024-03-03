@@ -2,7 +2,6 @@
 import java.time.LocalDateTime;
 
 public class Stage {
-    private static int counter = 0;
     private int stageID;
     private int raceID;
     private String stageName;
@@ -13,7 +12,8 @@ public class Stage {
 
     public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
-        this.stageID = counter++;
+        HelperFunction hf = new HelperFunction();
+        this.stageID = hf.generateUniqueId();
         this.raceID = raceID;
         this.stageName = stageName;
         this.description = description;

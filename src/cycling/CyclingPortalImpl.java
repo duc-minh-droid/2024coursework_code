@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,6 +22,9 @@ public class CyclingPortalImpl implements CyclingPortal {
         int[] stageIDs = cp.getRaceStages(LeMansID);
         cp.removeStageById(LeBonkID);
         System.out.println(cp.getNumberOfStages(LeMansID));
+        // for (int stageID: cp.getRaceStages(LeMansID)) {
+        //     System.out.println(stageID);
+        // }
 
     }
 
@@ -133,8 +137,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public void removeStageById(int stageId) throws IDNotRecognisedException {
         HelperFunction hf = new HelperFunction();
-        Stage stage = hf.getStageByID(stageId, races);
-        
+        int raceID = hf.getRaceIDByStageID(stageId, races);
+        ArrayList<Stage> stages = races.get(raceID).getStages();
+        for (int i = 0; i < stages.size(); i++) {
+            if (stages.get(i).getStageID() == stageId) {
+                stages.remove(i);
+                break;
+            }
+        }
     }
 
     public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,

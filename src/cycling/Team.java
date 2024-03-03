@@ -6,8 +6,9 @@ public class Team {
     private String description;
     private int teamRiders;
 
-    public Team( int teamID, String teamName,String description, int teamRiders ){
-        this.teamID = teamID;
+    public Team(String teamName,String description, int teamRiders ){
+        HelperFunction hf = new HelperFunction();
+        this.teamID = hf.generateUniqueId();
         this.teamName = teamName;
         this.description = description;
         this.teamRiders = teamRiders;

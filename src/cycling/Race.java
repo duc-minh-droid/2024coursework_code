@@ -2,7 +2,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Race {
-    private static int counter = 0;
     private final int raceID;
     private String name;
     private String description;
@@ -11,9 +10,10 @@ public class Race {
     private ArrayList<Stage> stages = new ArrayList<Stage>();
 
     public Race(String name, String description) {
+        HelperFunction hf = new HelperFunction();
         this.name = name;
         this.description = description;
-        this.raceID = counter++;
+        this.raceID = hf.generateUniqueId();
     }
 
     public int getRaceID() {

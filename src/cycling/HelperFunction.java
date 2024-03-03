@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.UUID;
 
 public class HelperFunction {
     public ArrayList<String> getRacesNames(HashMap<Integer, Race> races) {
@@ -28,7 +29,8 @@ public class HelperFunction {
         HashMap<Integer, Race> races = new HashMap<Integer, Race>();
         races.put(1, new Race("F", "F"));
         HelperFunction hf = new HelperFunction();
-        hf.getRacesNames(races);
+//        hf.getRacesNames(races);
+        System.out.println(hf.generateUniqueId());
     }
 
     public static Stage getStageByID(int stageID, HashMap<Integer, Race> races) {
@@ -41,6 +43,26 @@ public class HelperFunction {
         }
         return null;
     }
-    
+
+    public static int getRaceIDByStageID(int stageID, HashMap<Integer, Race> races) {
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                if (stage.getStageID() == stageID) {
+                    return race.getRaceID();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int generateUniqueId() {
+        UUID idOne = UUID.randomUUID();
+        String str=""+idOne;
+        int uid=str.hashCode();
+        String filterStr=""+uid;
+        str=filterStr.replaceAll("-", "");
+        return Integer.parseInt(str);
+    }
+
     
 }
