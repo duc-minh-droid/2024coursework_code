@@ -9,19 +9,24 @@ import java.util.Iterator;
 
 public class CyclingPortalImpl implements CyclingPortal {
     private static HashMap<Integer, Race> races = new HashMap<Integer, Race>();
-
+    private static HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
+    
     public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException, InvalidLengthException{
         CyclingPortal cp = new CyclingPortalImpl();
         int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
         int[] ids = cp.getRaceIds();
         for (int id:ids) {
-            // System.out.print(id);
+            System.out.print(id);
+
         }
         int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null, null);
         int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 6.0, null, null);
         int[] stageIDs = cp.getRaceStages(LeMansID);
         cp.removeStageById(LeBonkID);
         System.out.println(cp.getNumberOfStages(LeMansID));
+
+        
+        System.out.println(cp.getRaceIds());
         // for (int stageID: cp.getRaceStages(LeMansID)) {
         //     System.out.println(stageID);
         // }
@@ -31,8 +36,8 @@ public class CyclingPortalImpl implements CyclingPortal {
     public int[] getRaceIds() {
         int[] raceIds = new int[races.size()];
         int index = 0;
-        for (Race race : races.values()) {
-            raceIds[index++] = race.getRaceID();
+        for (int raceID : races.keySet()) {
+            raceIds[index++] = raceID;
         }
         return raceIds;
     }
@@ -81,6 +86,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
         Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");}
         return race.getStages().size();
     }
 
@@ -127,14 +134,18 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public double getStageLength(int stageId) throws IDNotRecognisedException {
         
-        // if (stageId)
         HelperFunction hf = new HelperFunction();
+        if (!hf.getStagesIDs(races).contains(stageId) ){
+            throw new IDNotRecognisedException("Stage not found"); 
         Stage stage = hf.getStageByID(stageId, races);
         return stage.getLength();
     }
 
     public void removeStageById(int stageId) throws IDNotRecognisedException {
         HelperFunction hf = new HelperFunction();
+        if (!hf.getStagesIDs(races).contains(stageId) ){
+            throw new IDNotRecognisedException("Stage not found"); 
+        }
         int raceID = hf.getRaceIDByStageID(stageId, races);
         ArrayList<Stage> stages = races.get(raceID).getStages();
         for (int i = 0; i < stages.size(); i++) {
@@ -170,18 +181,41 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
-        // TODO Auto-generated method stub
-        return 0;
+        if (name == null || name.isEmpty()) {
+            throw new InvalidNameException("Team's name can not be empty");
+        }
+        if (name.length() > 30) {
+            throw new InvalidNameException("Team's name can not exceed 30 character");
+        }
+        if (name.contains(" ")) {
+            throw new InvalidNameException("Team's name can not contain white space");
+        }
+
+        HelperFunction hf = new HelperFunction();
+        if (hf.getTeamsNames(teams).contains(name)) {
+            throw new IllegalNameException(("Team's name already existing"));
+        }
+        Team team = new Team(name, description);
+        teams.put(team.getTeamID(), team);
+        return team.getTeamID();
     }
 
     public void removeTeam(int teamId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
+        Team team = teams.get(teamId);
+        if (team == null){
+            throw new IDNotRecognisedException("Team not found");
+        }
+        teams.remove(teamId);
 
     }
 
     public int[] getTeams() {
-        // TODO Auto-generated method stub
-        return null;
+        int[] teamIds = new int[teams.size()];
+        int index = 0;
+        for (int teamID : teams.keySet()) {
+            teamIds[index++] = teamID;
+        }
+        return teamIds;
     }
 
     public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
@@ -191,7 +225,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public int createRider(int teamID, String name, int yearOfBirth)
             throws IDNotRecognisedException, IllegalArgumentException {
-        // TODO Auto-generated method stub
+        
         return 0;
     }
 

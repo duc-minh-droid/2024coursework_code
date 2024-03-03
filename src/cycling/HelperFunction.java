@@ -15,6 +15,14 @@ public class HelperFunction {
         return racesNames;
     }
 
+    public ArrayList<String> getTeamsNames(HashMap<Integer, Team> teams){
+        ArrayList<String> teamsNames = new ArrayList<>();
+        for (Team team : teams.values()){
+            teamsNames.add(team.getTeamName());
+        }
+        return teamsNames;
+    }
+
     public ArrayList<String> getStagesNames(HashMap<Integer, Race> races) {
         ArrayList<String> stagesNames = new ArrayList<>();
         for (Race race : races.values()) {
@@ -62,6 +70,16 @@ public class HelperFunction {
         String filterStr=""+uid;
         str=filterStr.replaceAll("-", "");
         return Integer.parseInt(str);
+    }
+
+    public static ArrayList<Integer> getStagesIDs(HashMap<Integer, Race> races){
+        ArrayList<Integer> stagesIDs = new ArrayList<>();
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                stagesIDs.add(stage.getStageID());
+            }
+        }
+    return stagesIDs;
     }
 
     

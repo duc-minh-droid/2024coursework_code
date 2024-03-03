@@ -4,6 +4,7 @@ public class Rider {
     private int teamID;
     private String riderName;
     private int YearOfBirth;
+    
 
     public Rider(int riderID, String riderName, int YearOfBirth) {
         HelperFunction hf = new HelperFunction();
