@@ -72,7 +72,7 @@ public class HelperFunction {
         return Integer.parseInt(str);
     }
 
-    public static ArrayList<Integer> getStagesIDs(HashMap<Integer, Race> races){
+    public ArrayList<Integer> getStagesIDs(HashMap<Integer, Race> races){
         ArrayList<Integer> stagesIDs = new ArrayList<>();
         for (Race race : races.values()) {
             for (Stage stage : race.getStages()) {

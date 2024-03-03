@@ -139,6 +139,7 @@ public class CyclingPortalImpl implements CyclingPortal {
             throw new IDNotRecognisedException("Stage not found"); 
         Stage stage = hf.getStageByID(stageId, races);
         return stage.getLength();
+        }
     }
 
     public void removeStageById(int stageId) throws IDNotRecognisedException {
