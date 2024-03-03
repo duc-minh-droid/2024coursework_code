@@ -5,7 +5,6 @@ public class Race {
     private final int raceID;
     private String name;
     private String description;
-    private static int numberOfStages = 0;
     private double length;
     private ArrayList<Stage> stages = new ArrayList<Stage>();
 
@@ -30,11 +29,6 @@ public class Race {
         return description;
     }
 
-
-    public int getNumberOfStage(){
-        return numberOfStages;
-    }
-
     public double getLength(){
         return length;
     }
@@ -44,7 +38,6 @@ public class Race {
     public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type) {
         Stage stage = new Stage(raceId, stageName, description, length, startTime, type);
         stages.add(stage);
-        numberOfStages++;
         return stage.getStageID();    
     }
 }

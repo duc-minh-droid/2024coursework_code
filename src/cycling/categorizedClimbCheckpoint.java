@@ -1,13 +1,17 @@
-
-public class categorizedClimbCheckpoint extends Checkpoint {
+public class CategorizedClimbCheckpoint extends Checkpoint {
+    private int stageID;
     private double location;
     private CheckpointType checkpointType;
     private double averageGradient;
     private double length;
+    private int checkpointID;
 
-    public categorizedClimbCheckpoint(int stageId, double location, CheckpointType checkpointType,
-            double averageGradient, double length, int checkpointId) {
-        super(location, checkpointId, stageId);
+    public CategorizedClimbCheckpoint(int stageId, double location, CheckpointType checkpointType,
+            double averageGradient, double length) {
+        super();
+        HelperFunction hf = new HelperFunction();
+        this.checkpointID = hf.generateUniqueId();
+        this.stageID = stageId;
         this.location = location;
         this.checkpointType = checkpointType;
         this.averageGradient = averageGradient;

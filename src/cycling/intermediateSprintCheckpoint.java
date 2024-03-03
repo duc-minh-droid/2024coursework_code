@@ -1,8 +1,13 @@
+public class IntermediateSprintCheckpoint extends Checkpoint {
+    private int stageID;
+    private double location;
+    private int checkpointID;
 
-public class intermediateSprintCheckpoint extends Checkpoint {
-
-    public intermediateSprintCheckpoint(double location, int checkpointId, int stageId) {
-        super(location, checkpointId, stageId);
+    public IntermediateSprintCheckpoint(int stageID, double location, int checkpointID) {
+        super(location, checkpointID, stageID);
+        this.stageID = stageID;
+        this.location = location;
+        this.checkpointID = checkpointID;
 
     }
 }

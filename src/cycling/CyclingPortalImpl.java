@@ -67,7 +67,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         String details = "Race's ID: "       + race.getRaceID()        +"\n" +
                          "Name: "            + race.getName()          +"\n" +
                          "Description: "     + race.getDescription()   +"\n" + 
-                         "Number of Stage: " + race.getNumberOfStage() +"\n" + 
+                         "Number of Stage: " + getNumberOfStages(raceId) +"\n" + 
                          "Length: "          + race.getLength()        +"\n";
         return details;
     }
@@ -81,9 +81,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
         Race race = races.get(raceId);
-        if (race == null) {
-            throw new IDNotRecognisedException("Race not found");}
-        return race.getNumberOfStage();
+        return race.getStages().size();
     }
 
     public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
@@ -118,7 +116,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         Race race = races.get(raceId);
         if (race == null) {
             throw new IDNotRecognisedException("Race not found");}
-        int[] raceStageIDs = new int[race.getNumberOfStage()];
+        int[] raceStageIDs = new int[getNumberOfStages(raceId)];
         int index = 0;
         for (Stage stage : race.getStages()) {
             raceStageIDs[index] = stage.getStageID();
@@ -150,27 +148,24 @@ public class CyclingPortalImpl implements CyclingPortal {
     public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
             Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
             InvalidStageTypeException {
+        Checkpoint cp = new CategorizedClimbCheckpoint(stageId, location, type, averageGradient, length);
         return 0;
     }
 
     public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
             InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     public void removeCheckpoint(int checkpointId) throws IDNotRecognisedException, InvalidStageStateException {
-        // TODO Auto-generated method stub
 
     }
 
     public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
-        // TODO Auto-generated method stub
 
     }
 
     public int[] getStageCheckpoints(int stageId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
         return null;
     }
 
