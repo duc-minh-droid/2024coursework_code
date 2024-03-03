@@ -1,12 +1,8 @@
 
-public class Checkpoint {
-    private int stageId;
-    private double location;
-    private int checkpointId;
+/**
+ * Checkpoint
+ */
+ interface Checkpoint {
+    public int getCheckpointID();
 
-    public Checkpoint() {
-        // this.location = location;
-        // this.checkpointId = checkpointId;
-        // this.stageId = stageId;
-    }
-}
+} 

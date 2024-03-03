@@ -1,4 +1,4 @@
-public class CategorizedClimbCheckpoint extends Checkpoint {
+public class CategorizedClimbCheckpoint implements Checkpoint {
     private int stageID;
     private double location;
     private CheckpointType checkpointType;
@@ -16,5 +16,9 @@ public class CategorizedClimbCheckpoint extends Checkpoint {
         this.checkpointType = checkpointType;
         this.averageGradient = averageGradient;
         this.length = length;
+    }
+
+    public int getCheckpointID() {
+        return checkpointID;
     }
 }

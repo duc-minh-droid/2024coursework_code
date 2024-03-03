@@ -15,9 +15,9 @@ public class HelperFunction {
         return racesNames;
     }
 
-    public ArrayList<String> getTeamsNames(HashMap<Integer, Team> teams){
+    public ArrayList<String> getTeamsNames(HashMap<Integer, Team> teams) {
         ArrayList<String> teamsNames = new ArrayList<>();
-        for (Team team : teams.values()){
+        for (Team team : teams.values()) {
             teamsNames.add(team.getTeamName());
         }
         return teamsNames;
@@ -37,7 +37,7 @@ public class HelperFunction {
         HashMap<Integer, Race> races = new HashMap<Integer, Race>();
         races.put(1, new Race("F", "F"));
         HelperFunction hf = new HelperFunction();
-//        hf.getRacesNames(races);
+        // hf.getRacesNames(races);
         System.out.println(hf.generateUniqueId());
     }
 
@@ -63,24 +63,60 @@ public class HelperFunction {
         return 0;
     }
 
+    public static int getRaceIDByCheckpointID(int checkpointID, HashMap<Integer, Race> races) {
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                for (Checkpoint checkpoint : stage.getCheckpoints()) {
+                    if (checkpoint.getCheckpointID() == checkpointID) {
+                        return race.getRaceID();
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int getStageIDByCheckpointID(int checkpointID, HashMap<Integer, Race> races) {
+        for (Race race : races.values()) {
+            for (Stage stage : race.getStages()) {
+                for (Checkpoint checkpoint : stage.getCheckpoints()) {
+                    if (checkpoint.getCheckpointID() == checkpointID) {
+                        return stage.getStageID();
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     public static int generateUniqueId() {
         UUID idOne = UUID.randomUUID();
-        String str=""+idOne;
-        int uid=str.hashCode();
-        String filterStr=""+uid;
-        str=filterStr.replaceAll("-", "");
+        String str = "" + idOne;
+        int uid = str.hashCode();
+        String filterStr = "" + uid;
+        str = filterStr.replaceAll("-", "");
         return Integer.parseInt(str);
     }
 
-    public static ArrayList<Integer> getStagesIDs(HashMap<Integer, Race> races){
+    public static ArrayList<Integer> getStagesIDs(HashMap<Integer, Race> races) {
         ArrayList<Integer> stagesIDs = new ArrayList<>();
         for (Race race : races.values()) {
             for (Stage stage : race.getStages()) {
                 stagesIDs.add(stage.getStageID());
             }
         }
-    return stagesIDs;
+        return stagesIDs;
     }
 
-    
+    public int getTeamIDByRiderID(int riderID, HashMap<Integer, Team> teams){
+        for (Team team : teams.values()){
+            for (int riderIDtemp : team.getRiders().keySet()){
+                if (riderIDtemp == riderID){
+                    return riderIDtemp;
+                }
+            }
+
+        }return 0;
+    }
+
 }

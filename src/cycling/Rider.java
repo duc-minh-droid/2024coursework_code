@@ -6,10 +6,18 @@ public class Rider {
     private int YearOfBirth;
     
 
-    public Rider(int riderID, String riderName, int YearOfBirth) {
+    public Rider(int teamID, String riderName, int YearOfBirth) {
         HelperFunction hf = new HelperFunction();
         this.riderID = hf.generateUniqueId();
         this.riderName = riderName;
         this.YearOfBirth = YearOfBirth;
+    }
+
+    public int getRiderID(){
+        return riderID;
+    }
+
+    public int getTeamID(){
+        return teamID;
     }
 }

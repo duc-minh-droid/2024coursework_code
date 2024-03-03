@@ -23,5 +23,13 @@ public class Team {
         return teamID;
     }
 
-    
+    public int createNewRider(int teamID, String riderName, int yearOfBirth){
+    Rider rider = new Rider(teamID,riderName, yearOfBirth);
+        riders.put(rider.getRiderID(), rider);
+        return rider.getRiderID();
+    }
+
+    public HashMap<Integer, Rider> getRiders(){
+        return riders;
+    }
 }
