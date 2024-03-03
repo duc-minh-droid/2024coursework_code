@@ -3,10 +3,11 @@ public class IntermediateSprintCheckpoint implements Checkpoint {
     private double location;
     private int checkpointID;
 
-    public IntermediateSprintCheckpoint(int stageID, double location, int checkpointID) {
+    public IntermediateSprintCheckpoint(int stageID, double location) {
+        HelperFunction hf = new HelperFunction();
         this.stageID = stageID;
         this.location = location;
-        this.checkpointID = checkpointID;
+        this.checkpointID = hf.generateUniqueId();
 
     }
     public int getCheckpointID() {

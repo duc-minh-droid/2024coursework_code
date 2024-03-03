@@ -11,6 +11,7 @@ public class Stage {
     private LocalDateTime startTime;
     private StageType type;
     private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
+    private String stageState;
 
     public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
@@ -50,6 +51,10 @@ public class Stage {
 
     public void addCheckpoint(Checkpoint cp) {
         checkpoints.add(cp);
+    }
+
+    public void concludeStagePreparation() {
+        stageState = "waiting for results";
     }
 
 }
