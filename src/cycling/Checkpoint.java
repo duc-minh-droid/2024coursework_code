@@ -5,8 +5,8 @@ public class Checkpoint {
     private int checkpointId;
 
     public Checkpoint() {
-        // this.location = location;
-        // this.checkpointId = checkpointId;
-        // this.stageId = stageId;
+        this.location = location;
+        this.checkpointId = checkpointId;
+        this.stageId = stageId;
     }
 }
