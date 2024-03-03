@@ -1,5 +1,6 @@
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Stage {
     private int stageID;
@@ -9,6 +10,7 @@ public class Stage {
     private double length;
     private LocalDateTime startTime;
     private StageType type;
+    private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
 
     public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
@@ -40,6 +42,14 @@ public class Stage {
 
     public StageType getType(){
         return type;
+    }
+
+    public ArrayList<Checkpoint> getCheckpoints(){
+        return checkpoints;
+    }
+
+    public void addCheckpoint(Checkpoint cp) {
+        checkpoints.add(cp);
     }
 
 }
