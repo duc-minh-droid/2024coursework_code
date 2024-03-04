@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class CyclingPortalImpl implements CyclingPortal {
@@ -39,8 +40,23 @@ public class CyclingPortalImpl implements CyclingPortal {
         cp.removeCheckpoint(LeMonkcpID);
         int[] cpIDs = cp.getStageCheckpoints(LeDussyID);
         for (int id : cpIDs) {
-            System.out.println(id);
+            // System.out.println(id);
         }
+        int Lakers = cp.createTeam("laker", "desc");
+        int Lakersss = cp.createTeam("rekal", "desc");
+        int Lakerss = cp.createRider(Lakers, "Bronny", 2000);
+        int B = cp.createRider(Lakers,"Lebro", 1999);
+        int C = cp.createRider(Lakers,"Lebr", 1999);
+
+        cp.removeRider(B);
+        // cp.removeTeam(Lakers);
+        // cp.getTeamRiders(Lakers);
+        int[] lakersRiders = cp.getTeamRiders(Lakers);
+        System.out.println("Riders of Lakers:");
+        for (int riderId : lakersRiders) {
+            System.out.println(riderId);}
+        
+
     }
 
     public int[] getRaceIds() {
@@ -322,31 +338,51 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        Team team = teams.get(teamId);
+        if (team == null) {
+            throw new IDNotRecognisedException("Team not found");}
+        // int[] riderList = new int[teams.keySet().size()];
+        // int index = 0;
+        // for (int riderID : teams.keySet()){
+        //     riderList[index++] = riderID;
+        // 
+        // return riderList;
+
+        HashMap<Integer, Rider> riderList = team.getRiders();
+        int[] riderIDs = new int[riderList.size()];
+        int index = 0;
+        for(int riderID : riderList.keySet()){
+            riderIDs[index++] = riderID;
+        }
+        return riderIDs;
+        
     }
 
     public int createRider(int teamID, String name, int yearOfBirth)
             throws IDNotRecognisedException, IllegalArgumentException {
         Team team = teams.get(teamID);
         if (team == null) {
-            throw new IDNotRecognisedException("Team not found");}
+            throw new IDNotRecognisedException("Team not found");
+        }
         if (name == null || name.isEmpty()){
             throw new IllegalArgumentException("Rider's name can not be empty");
         }
         if (yearOfBirth < 1900){
-        
             throw new IllegalArgumentException("Rider's year of birth can not be less than 1900");
-            }
-
+        }
     return team.createNewRider(teamID,name,yearOfBirth);
 
     }
 
     public void removeRider(int riderId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-
-    }
+            HelperFunction hf = new HelperFunction();
+            int teamID = hf.getTeamIDByRiderID(riderId, teams);
+            if (teamID == 0) {
+                throw new IDNotRecognisedException("Rider not found in any team");
+            }
+            Team team = teams.get(teamID);
+            team.getRiders().remove(riderId);
+        }
 
     public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
             throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException,

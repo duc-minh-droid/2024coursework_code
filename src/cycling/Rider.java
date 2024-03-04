@@ -8,6 +8,7 @@ public class Rider {
 
     public Rider(int teamID, String riderName, int YearOfBirth) {
         HelperFunction hf = new HelperFunction();
+        this.teamID = teamID;
         this.riderID = hf.generateUniqueId();
         this.riderName = riderName;
         this.YearOfBirth = YearOfBirth;

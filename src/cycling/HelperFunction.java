@@ -112,10 +112,9 @@ public class HelperFunction {
         for (Team team : teams.values()){
             for (int riderIDtemp : team.getRiders().keySet()){
                 if (riderIDtemp == riderID){
-                    return riderIDtemp;
+                    return team.getTeamID();
                 }
             }
-
         }return 0;
     }
 
