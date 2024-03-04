@@ -89,6 +89,20 @@ public class HelperFunction {
         return 0;
     }
 
+    public static ArrayList<Integer> getAllCheckpoints(HashMap<Integer, Race> races) {
+        ArrayList<Integer> checkpoints = new ArrayList<>();
+        for (Race race: races.values()) {
+            for (Stage stage : race.getStages()) {
+                for (Checkpoint checkpoint : stage.getCheckpoints()) {
+                    checkpoints.add(checkpoint.getCheckpointID());
+                
+                }
+            }
+        }
+        
+        return checkpoints;
+    }
+
     public static int generateUniqueId() {
         UUID idOne = UUID.randomUUID();
         String str = "" + idOne;
@@ -117,5 +131,8 @@ public class HelperFunction {
             }
         }return 0;
     }
+
+    
+    
 
 }

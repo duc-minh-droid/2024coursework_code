@@ -1,6 +1,8 @@
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Stage {
     private int stageID;
@@ -11,7 +13,8 @@ public class Stage {
     private LocalDateTime startTime;
     private StageType type;
     private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
-    private String stageState;
+    private String stageState = "";
+    private HashMap<Integer, LocalTime[]> riderResults = new HashMap<Integer, LocalTime[]>();
 
     public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
@@ -57,4 +60,15 @@ public class Stage {
         stageState = "waiting for results";
     }
 
+    public String getStageState() {
+        return stageState;
+    }
+
+    public void recordRiderResult(int riderID, LocalTime[] checkpoinTimes){
+        riderResults.put(riderID, checkpoinTimes );
+    }
+
+    public HashMap<Integer, LocalTime[]> getRiderResults() {
+        return riderResults;
+    }
 }
