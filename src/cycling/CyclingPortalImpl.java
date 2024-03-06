@@ -478,6 +478,22 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (!hf.getStagesIDs(races).contains(stageId)) {
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
+            if (stage.getStageID() == stageId) {
+                if (stage.getRiderResults().containsKey(riderId)) {
+                    return stage.getRiderResults().get(riderId);
+                } else {
+                    throw new IDNotRecognisedException("Rider's ID not recognised");
+                }
+            } else {
+                throw new IDNotRecognisedException("Stage's ID not recognised");
+            
+            }
+        }
         return null;
     }
 
