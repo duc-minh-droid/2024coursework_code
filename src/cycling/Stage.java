@@ -71,4 +71,8 @@ public class Stage {
     public HashMap<Integer, LocalTime[]> getRiderResults() {
         return riderResults;
     }
+
+    public int getNumberOfCheckpoints(){
+        return checkpoints.size();
+    }
 }

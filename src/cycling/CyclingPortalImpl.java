@@ -460,7 +460,13 @@ public class CyclingPortalImpl implements CyclingPortal {
                 }
             }
         }
-        
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
+            if (stage.getStageID() == stageId) {
+                if (checkpointTimes.length != stage.getNumberOfCheckpoints() + 2){
+                    throw new InvalidCheckpointTimesException("Invalid number of check points time");
+                }
+            }
+        }
         for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
             if (stage.getStageID() == stageId) {
                 if (stage.getRiderResults().containsKey(riderId)) {
@@ -502,8 +508,18 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-
-    }
+        HelperFunction hf = new HelperFunction();
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()){
+            if (stage.getStageID() == stageId){
+                if (stage.getRiderResults().containsKey(riderId)){
+                    stage.getRiderResults().remove(riderId);
+                } else {
+                    throw new IDNotRecognisedException("Rider's ID not recognised");
+                }
+            } else {
+                throw new IDNotRecognisedException("Stage's ID not recognised");
+            }
+    }}
 
     public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
         return null;
