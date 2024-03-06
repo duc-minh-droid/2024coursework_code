@@ -83,7 +83,16 @@ public class CyclingPortalImpl implements CyclingPortal {
         for (LocalTime lt : cp.getRiderResultsInStage(LeBonkID, BronnyID)) {
             // System.out.println(lt);
         }
-         cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
+        //  LocalTime Lee = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, B);
+        //  LocalTime Lee1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, C);
+        //  System.out.println(Lee);
+        //  System.out.println(Lee1);
+        // for (int i : cp.getRidersRankInStage(LeBonkID)){
+        //     System.out.println(i);}
+        for (LocalTime i : cp.getRankedAdjustedElapsedTimesInStage(LeBonkID)){
+             System.out.println(i);}
+        // cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
+        
     }
 
     public int[] getRaceIds() {
@@ -511,7 +520,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 if (stage.getRiderResults().containsKey(riderId)) {
                     return stage.getRiderResults().get(riderId);
                 } else {
-                    throw new IDNotRecognisedException("Rider's ID not recognised");
+                    throw new IDNotRecognisedException("Rider's ID not recognised"); // need to throw an exception for empty result
                 }
             } else {
                 throw new IDNotRecognisedException("Stage's ID not recognised");
@@ -525,14 +534,14 @@ public class CyclingPortalImpl implements CyclingPortal {
     public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
         HelperFunction hf = new HelperFunction();
         if (hf.getRiderByID(riderId, teams) == null){
-            throw new IDNotRecognisedException("Stage's ID not recognised");
+            throw new IDNotRecognisedException("Rider's ID not recognised");
         }
         if (hf.getStageByID(stageId, races) == null){
             throw new IDNotRecognisedException("Stage's ID not recognised");
         }
         for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
             if (stage.getStageID() == stageId) {
-                stage.getRiderAdjustedElapsedTimeInStage(stageId, riderId);
+                return stage.getRiderAdjustedElapsedTimeInStage(riderId);
             }
         }
         return null;
@@ -558,11 +567,22 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (hf.getStageByID(stageId, races) == null){
             throw new IDNotRecognisedException("Stage's ID not recognised");
         }
-        return null;
-
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
+                if (stage.getStageID() == stageId){
+                    return stage.getRidersRankInStage(stageId, races);}
+                }
+            return null;
     }
 
     public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (hf.getStageByID(stageId, races) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");}
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()){
+                if (stage.getStageID() == stageId){
+                    return stage.getRankedAdjustedElapsedTimesInStage(stageId, races);
+                }
+            }
         return null;
     }
 

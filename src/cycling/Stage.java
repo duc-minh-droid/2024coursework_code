@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.time.Duration;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 
 public class Stage {
     private int stageID;
@@ -18,8 +19,7 @@ public class Stage {
     private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
     private String stageState = "";
     private HashMap<Integer, LocalTime[]> riderResults = new HashMap<Integer, LocalTime[]>();
-    private HashMap<Integer, LocalTime> ridersElapsedTimes = new HashMap<Integer, LocalTime>();
-    private int[] riderRank = new int[ridersElapsedTimes.size()];
+    private LinkedHashMap<Integer, LocalTime> ridersAdjustedElapsedTimes = new LinkedHashMap<Integer, LocalTime>();
 
     public Stage(int raceID, String stageName, String description, double length,
             LocalDateTime startTime, StageType type) {
@@ -83,12 +83,12 @@ public class Stage {
         LocalTime[] updatedCheckpointTimes = Arrays.copyOf(checkpointTimes, checkpointTimes.length + 1);
         updatedCheckpointTimes[checkpointTimes.length] = elapsedNano;
 
-        ridersElapsedTimes.put(riderID, elapsedNano);
+        ridersAdjustedElapsedTimes.put(riderID, elapsedNano);
         riderResults.put(riderID, updatedCheckpointTimes);
     }
 
-    public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) {
-        LocalTime[] elapesedTimes = ridersElapsedTimes.values().toArray(new LocalTime[0]);
+    public LocalTime convertElapsedTimesToAdjustedElapsedTimes() {
+        LocalTime[] elapesedTimes = ridersAdjustedElapsedTimes.values().toArray(new LocalTime[0]);
         Arrays.sort(elapesedTimes, Comparator.naturalOrder());
         LocalTime[] sortedElapesedTimes = new LocalTime[elapesedTimes.length];
         System.arraycopy(elapesedTimes, 0, sortedElapesedTimes, 0, elapesedTimes.length);
@@ -96,14 +96,39 @@ public class Stage {
         System.arraycopy(sortedElapesedTimes, 0, altElapsTimes, 0, sortedElapesedTimes.length);
         for (int i = 0; i < sortedElapesedTimes.length; i++) {
             if (i==0) continue;
-            if (Duration.between(sortedElapesedTimes[i], sortedElapesedTimes[i-1]).compareTo(Duration.ofSeconds(1)) < 0) {
-                System.out.println(sortedElapesedTimes[i-1] + " - " + sortedElapesedTimes[i] + " < 1 second");
+            Duration elapsedTime = Duration.ofHours(24).minus(Duration.between(sortedElapesedTimes[i], sortedElapesedTimes[i-1]));
+            LocalTime elapsedNano = LocalTime.MIN
+            .plusHours(elapsedTime.toHours())
+            .plusMinutes(elapsedTime.toMinutesPart())
+            .plusSeconds(elapsedTime.toSecondsPart())
+            .plusNanos(elapsedTime.toNanosPart());
+            final long ONE_SECOND = 1_000_000_000L;
+            if (elapsedNano.toNanoOfDay()<ONE_SECOND) {
                 altElapsTimes[i] = altElapsTimes[i-1];
-                System.out.println("Which means " + altElapsTimes[i-1] + " - " + altElapsTimes[i]);
             }
         }
-        for (LocalTime lt : altElapsTimes) {
-            System.out.println(lt);
+        int[] ridersIDs = {};
+        for (int riderID : ridersAdjustedElapsedTimes.keySet()) {
+            for (LocalTime lt : sortedElapesedTimes) {
+                if (ridersAdjustedElapsedTimes.get(riderID).equals(lt)) {
+                    ridersIDs = Arrays.copyOf(ridersIDs, ridersIDs.length + 1);
+                    ridersIDs[ridersIDs.length - 1] = riderID;
+                }
+            }
+        }
+        for (int i = 0; i < altElapsTimes.length; i++) {
+            ridersAdjustedElapsedTimes.put(ridersIDs[i], altElapsTimes[i]);
+            // System.out.println(altElapsTimes[i]);
+        }
+        return null;
+    }
+
+    public LocalTime getRiderAdjustedElapsedTimeInStage(int riderId) {
+        convertElapsedTimesToAdjustedElapsedTimes();
+        for ( int ID : ridersAdjustedElapsedTimes.keySet()){
+            if (ID == riderId){
+                return ridersAdjustedElapsedTimes.get(ID);
+            }
         }
         return null;
     }
@@ -116,8 +141,39 @@ public class Stage {
         return checkpoints.size();
     }
 
-    public int[] getRiderRank(){
-       LocalTime[] sortedElapesedTimes ;
-       return null;
+    public LinkedHashMap<Integer, LocalTime> getRidersAdjustedElapsedTimes() {
+        convertElapsedTimesToAdjustedElapsedTimes();
+        return ridersAdjustedElapsedTimes;
     }
+
+    public int[] getRidersRankInStage(int stageId, HashMap<Integer, Race> races) {
+        HelperFunction hf = new HelperFunction();
+        int[] result = {};
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
+            if (stage.getStageID() == stageId) {
+                for (int riderID : stage.getRidersAdjustedElapsedTimes().keySet()) {
+                    result = Arrays.copyOf(result, result.length + 1);
+                    result[result.length - 1] = riderID;
+                }
+                break;
+            }
+        }
+        return result;
+    }
+
+    public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId, HashMap<Integer, Race> races)  {
+        HelperFunction hf = new HelperFunction();
+            LocalTime[] adjRank = {};
+            for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()){
+                if (stage.getStageID() == stageId){
+                    for (LocalTime time : stage.getRidersAdjustedElapsedTimes().values()){
+                        adjRank = Arrays.copyOf(adjRank, adjRank.length + 1);
+                        adjRank[adjRank.length -1 ] = time;
+                    }
+                    break;
+                }
+            } 
+        return adjRank;
+    }
+
 }
