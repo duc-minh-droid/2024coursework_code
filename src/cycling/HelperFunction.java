@@ -142,7 +142,15 @@ public class HelperFunction {
         }return 0;
     }
 
-    
-    
+    public static Rider getRiderByID(int riderID, HashMap<Integer, Team> teams) {
+        for (Team team : teams.values()) {
+            for (Rider rider : team.getRiders().values()) {
+                if (rider.getRiderID() == riderID) {
+                    return rider;
+                }
+            }
+        }
+        return null;
+    }
 
 }

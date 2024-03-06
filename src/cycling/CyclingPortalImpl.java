@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -9,8 +10,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class CyclingPortalImpl implements CyclingPortal {
-    private static HashMap<Integer, Race> races = new HashMap<Integer, Race>();
-    private static HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
+    private  HashMap<Integer, Race> races = new HashMap<Integer, Race>();
+    private  HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
 
     public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException,
             InvalidLengthException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException, DuplicatedResultException, InvalidCheckpointTimesException {
@@ -29,6 +30,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         // System.out.println(stageID);
         // }
         int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
+        int LeSpermcpID = cp.addCategorizedClimbToStage(LeBonkID, 6.0, CheckpointType.C1, 6.0, 6.0);
         int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
         // for (Stage stage : races.get(LeMansID).getStages()) {
         // if (stage.getStageID() == LeDussyID) {
@@ -48,6 +50,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         int BronnyID = cp.createRider(Lakers, "Bronny", 2000);
         int B = cp.createRider(Lakers, "Lebro", 1999);
         int C = cp.createRider(Lakers, "Lebr", 1999);
+        int D = cp.createRider(Lakers, "Lebr", 1999);
 
         // cp.removeRider(B);
         // cp.removeTeam(Lakers);
@@ -58,17 +61,29 @@ public class CyclingPortalImpl implements CyclingPortal {
         //     System.out.println(riderId);
         // }
 
-        LocalTime[] now = {LocalTime.now(),LocalTime.now(),LocalTime.now() };
+        LocalTime[] now = {LocalTime.of(12, 0, 1),LocalTime.now(),LocalTime.now() };
+        LocalTime[] now1 = {LocalTime.of(12, 0, 0, 500_000_000),LocalTime.now(),LocalTime.now() };
+        LocalTime[] now2 = {LocalTime.of(12, 0, 0,750),LocalTime.now(),LocalTime.now() };
+        LocalTime[] now3 = {LocalTime.of(11, 0, 0),LocalTime.now(),LocalTime.now() };
+
+
         cp.concludeStagePreparation(LeBonkID);
         cp.registerRiderResultsInStage(LeBonkID,BronnyID, now );
-        for(Stage stage : races.get(LeMansID).getStages()){
-            if ( stage.getStageID() == LeBonkID ){
-                for (LocalTime lt : stage.getRiderResults().get(BronnyID) ){
-                System.out.println(lt);
-                }
-            }
+        cp.registerRiderResultsInStage(LeBonkID, B, now1 );
+        cp.registerRiderResultsInStage(LeBonkID, C, now2 );
+        cp.registerRiderResultsInStage(LeBonkID, D, now3 );
+
+        // cp.getRiderAdjustedElapsedTimeInStage( LeBonkID, D);
+        
+        // Duration elapsedTime = Duration.between(LocalTime.now(), LocalTime.of(12, 0, 0));
+        // System.out.println(LocalTime.now());
+
+
+        
+        for (LocalTime lt : cp.getRiderResultsInStage(LeBonkID, BronnyID)) {
+            // System.out.println(lt);
         }
-    
+         cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
     }
 
     public int[] getRaceIds() {
@@ -503,11 +518,25 @@ public class CyclingPortalImpl implements CyclingPortal {
             
             }
         }
-        return null;
+        LocalTime[] lt = {};
+        return lt;
     }
 
     public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (hf.getRiderByID(riderId, teams) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
+        if (hf.getStageByID(stageId, races) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
+            if (stage.getStageID() == stageId) {
+                stage.getRiderAdjustedElapsedTimeInStage(stageId, riderId);
+            }
+        }
         return null;
+
     }
 
     public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
@@ -525,7 +554,12 @@ public class CyclingPortalImpl implements CyclingPortal {
     }}
 
     public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (hf.getStageByID(stageId, races) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
         return null;
+
     }
 
     public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
