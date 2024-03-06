@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Race {
+public class Race implements Serializable {
     private final int raceID;
     private String name;
     private String description;

@@ -4,11 +4,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
-public class Stage {
+public class Stage implements Serializable {
     private int stageID;
     private int raceID;
     private String stageName;

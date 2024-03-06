@@ -1,4 +1,6 @@
-public class IntermediateSprintCheckpoint implements Checkpoint {
+import java.io.Serializable;
+
+public class IntermediateSprintCheckpoint implements Checkpoint,Serializable {
     private int stageID;
     private double location;
     private int checkpointID;

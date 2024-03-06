@@ -1,4 +1,6 @@
-public class CategorizedClimbCheckpoint implements Checkpoint {
+import java.io.Serializable;
+
+public class CategorizedClimbCheckpoint implements Checkpoint, Serializable {
     private int stageID;
     private double location;
     private CheckpointType checkpointType;
@@ -6,7 +8,7 @@ public class CategorizedClimbCheckpoint implements Checkpoint {
     private double length;
     private int checkpointID;
 
-    public CategorizedClimbCheckpoint(int stageId, double location, CheckpointType checkpointType,
+    public CategorizedClimbCheckpoint (int stageId, double location, CheckpointType checkpointType,
             double averageGradient, double length) {
         super();
         HelperFunction hf = new HelperFunction();

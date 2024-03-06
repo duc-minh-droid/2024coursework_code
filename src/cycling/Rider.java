@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Rider {
+public class Rider implements Serializable{
     private int riderID;
     private int teamID;
     private String riderName;

@@ -8,91 +8,96 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 public class CyclingPortalImpl implements CyclingPortal {
-    private  HashMap<Integer, Race> races = new HashMap<Integer, Race>();
-    private  HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
+    private static  HashMap<Integer, Race> races = new HashMap<Integer, Race>();
+    private static HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
 
     public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException,
-            InvalidLengthException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException, DuplicatedResultException, InvalidCheckpointTimesException {
+            InvalidLengthException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException, DuplicatedResultException, InvalidCheckpointTimesException, IOException, ClassNotFoundException {
         CyclingPortal cp = new CyclingPortalImpl();
-        int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
-        int[] ids = cp.getRaceIds();
-        for (int id : ids) {
-            // System.out.print(id);
-        }
-        int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null,  StageType.FLAT);
-        int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 6.0, null, StageType.FLAT);
-        int[] stageIDs = cp.getRaceStages(LeMansID);
-        // cp.removeStageById(LeBonkID);
-        // System.out.println(cp.getNumberOfStages(LeMansID));
-        // for (int stageID: cp.getRaceStages(LeMansID)) {
-        // System.out.println(stageID);
-        // }
-        int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
-        int LeSpermcpID = cp.addCategorizedClimbToStage(LeBonkID, 6.0, CheckpointType.C1, 6.0, 6.0);
-        int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
-        // for (Stage stage : races.get(LeMansID).getStages()) {
-        // if (stage.getStageID() == LeDussyID) {
-        // for (Checkpoint chepoi : stage.getCheckpoints()) {
-        // System.out.println(chepoi.getCheckpointID());
-        // }
+        // int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
+        // // int[] ids = cp.getRaceIds();
+        // // for (int id : ids) {
+        // //     // System.out.print(id);
+        // // }
+        // int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null,  StageType.FLAT);
+        // int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 6.0, null, StageType.FLAT);
+        // int[] stageIDs = cp.getRaceStages(LeMansID);
+        // // cp.removeStageById(LeBonkID);
+        // // System.out.println(cp.getNumberOfStages(LeMansID));
+        // // for (int stageID: cp.getRaceStages(LeMansID)) {
+        // // System.out.println(stageID);
+        // // }
+        // int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
+        // int LeSpermcpID = cp.addCategorizedClimbToStage(LeBonkID, 6.0, CheckpointType.C1, 6.0, 6.0);
+        // int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
+        // // for (Stage stage : races.get(LeMansID).getStages()) {
+        // // if (stage.getStageID() == LeDussyID) {
+        // // for (Checkpoint chepoi : stage.getCheckpoints()) {
+        // // System.out.println(chepoi.getCheckpointID());
+        // // }
 
-        // }
-        // }
-        cp.removeCheckpoint(LeMonkcpID);
-        int[] cpIDs = cp.getStageCheckpoints(LeDussyID);
-        for (int id : cpIDs) {
-            // System.out.println(id);
-        }
-        int Lakers = cp.createTeam("laker", "desc");
-        int Lakersss = cp.createTeam("rekal", "desc");
-        int BronnyID = cp.createRider(Lakers, "Bronny", 2000);
-        int B = cp.createRider(Lakers, "Lebro", 1999);
-        int C = cp.createRider(Lakers, "Lebr", 1999);
-        int D = cp.createRider(Lakers, "Lebr", 1999);
+        // // }
+        // // }
+        // // cp.removeCheckpoint(LeMonkcpID);
+        // // int[] cpIDs = cp.getStageCheckpoints(LeDussyID);
+        // // for (int id : cpIDs) {
+        // //     // System.out.println(id);
+        // // }
+        // int Lakers = cp.createTeam("laker", "desc");
+        // int Lakersss = cp.createTeam("rekal", "desc");
+        // int BronnyID = cp.createRider(Lakers, "Bronny", 2000);
+        // int B = cp.createRider(Lakers, "Lebro", 1999);
+        // int C = cp.createRider(Lakers, "Lebr", 1999);
+        // int D = cp.createRider(Lakers, "Lebr", 1999);
 
-        // cp.removeRider(B);
-        // cp.removeTeam(Lakers);
-        // // cp.getTeamRiders(Lakers);
-        // int[] lakersRiders = cp.getTeamRiders(Lakers);
-        // System.out.println("Riders of Lakers:");
-        // for (int riderId : lakersRiders) {
-        //     System.out.println(riderId);
-        // }
+        // // // cp.removeRider(B);
+        // // // cp.removeTeam(Lakers);
+        // // // // cp.getTeamRiders(Lakers);
+        // // // int[] lakersRiders = cp.getTeamRiders(Lakers);
+        // // // System.out.println("Riders of Lakers:");
+        // // // for (int riderId : lakersRiders) {
+        // // //     System.out.println(riderId);
+        // // // }
 
-        LocalTime[] now = {LocalTime.of(12, 0, 1),LocalTime.now(),LocalTime.now() };
-        LocalTime[] now1 = {LocalTime.of(12, 0, 0, 500_000_000),LocalTime.now(),LocalTime.now() };
-        LocalTime[] now2 = {LocalTime.of(12, 0, 0,750),LocalTime.now(),LocalTime.now() };
-        LocalTime[] now3 = {LocalTime.of(11, 0, 0),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] now = {LocalTime.of(12, 0, 1),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] now1 = {LocalTime.of(12, 0, 0, 500_000_000),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] now2 = {LocalTime.of(12, 0, 0,750),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] now3 = {LocalTime.of(11, 0, 0),LocalTime.now(),LocalTime.now() };
 
 
-        cp.concludeStagePreparation(LeBonkID);
-        cp.registerRiderResultsInStage(LeBonkID,BronnyID, now );
-        cp.registerRiderResultsInStage(LeBonkID, B, now1 );
-        cp.registerRiderResultsInStage(LeBonkID, C, now2 );
-        cp.registerRiderResultsInStage(LeBonkID, D, now3 );
+        // cp.concludeStagePreparation(LeBonkID);
+        // cp.registerRiderResultsInStage(LeBonkID,BronnyID, now );
+        // cp.registerRiderResultsInStage(LeBonkID, B, now1 );
+        // cp.registerRiderResultsInStage(LeBonkID, C, now2 );
+        // cp.registerRiderResultsInStage(LeBonkID, D, now3 );
 
-        // cp.getRiderAdjustedElapsedTimeInStage( LeBonkID, D);
+        // cp.getRiderAdjustedElapsedTimeInStage( LeBonkID, D); 
         
-        // Duration elapsedTime = Duration.between(LocalTime.now(), LocalTime.of(12, 0, 0));
-        // System.out.println(LocalTime.now());
-
-
-        
-        for (LocalTime lt : cp.getRiderResultsInStage(LeBonkID, BronnyID)) {
-            // System.out.println(lt);
-        }
+        // for (LocalTime lt : cp.getRiderResultsInStage(LeBonkID, BronnyID)) {
+        //     // System.out.println(lt);
+        // }
         //  LocalTime Lee = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, B);
         //  LocalTime Lee1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, C);
         //  System.out.println(Lee);
         //  System.out.println(Lee1);
         // for (int i : cp.getRidersRankInStage(LeBonkID)){
         //     System.out.println(i);}
-        for (LocalTime i : cp.getRankedAdjustedElapsedTimesInStage(LeBonkID)){
-             System.out.println(i);}
+        // for (LocalTime i : cp.getRankedAdjustedElapsedTimesInStage(LeBonkID)){
+        //     //  System.out.println(i);
+        //     }
         // cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
         
+        cp.loadCyclingPortal("Portal5.ser");
+        cp.eraseCyclingPortal();
+        for (int id : races.keySet()) {
+            System.out.println(races.get(id).getName());
+        }
     }
 
     public int[] getRaceIds() {
@@ -178,9 +183,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (hf.getStagesNames(races).contains(stageName)) {
             throw new IllegalNameException("This stage name is already existing");
         }
-
         return race.addStageToRace(raceId, stageName, description, length, startTime, type);
-
     }
 
     public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
@@ -595,18 +598,41 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public void eraseCyclingPortal() {
-        // TODO Auto-generated method stub
-
+        races.clear();
+        teams.clear(); 
     }
 
     public void saveCyclingPortal(String filename) throws IOException {
-        // TODO Auto-generated method stub
-
+        
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            SerializedHashMap shm = new SerializedHashMap(races, teams);
+            System.out.println(races.size());
+            objectOut.writeObject(shm);
+            objectOut.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("Error in saving the file");
+        }
     }
 
     public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
-        // TODO Auto-generated method stub
-
+        try {
+            FileInputStream fileIn = new FileInputStream(filename);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            SerializedHashMap shm = (SerializedHashMap) objectIn.readObject();
+            races = shm.getRaces();
+            teams = shm.getTeams();
+            objectIn.close();
+            fileIn.close();
+        } catch (IOException e ) {
+            e.printStackTrace();
+            throw new IOException("Error in loading the file");
+        } catch (ClassNotFoundException e){
+            throw new ClassNotFoundException("Class file not found");
+        }
     }
 
     public void removeRaceByName(String name) throws NameNotRecognisedException {
