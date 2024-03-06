@@ -488,6 +488,9 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (!hf.getStagesIDs(races).contains(stageId)) {
             throw new IDNotRecognisedException("Stage's ID not recognised");
         }
+        if (!hf.getRidersIDs(teams).contains(riderId)) {
+            throw new IDNotRecognisedException("Rider's ID not recognised");
+        }
         for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
             if (stage.getStageID() == stageId) {
                 if (stage.getRiderResults().containsKey(riderId)) {

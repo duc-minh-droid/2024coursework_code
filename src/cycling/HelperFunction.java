@@ -122,6 +122,16 @@ public class HelperFunction {
         return stagesIDs;
     }
 
+    public static ArrayList<Integer> getRidersIDs(HashMap<Integer, Team> teams) {
+        ArrayList<Integer> ridersIDs = new ArrayList<>();
+        for (Team team : teams.values()) {
+            for (Rider rider : team.getRiders().values()) {
+                ridersIDs.add(rider.getRiderID());
+            }
+        }
+        return ridersIDs;
+    }
+
     public int getTeamIDByRiderID(int riderID, HashMap<Integer, Team> teams){
         for (Team team : teams.values()){
             for (int riderIDtemp : team.getRiders().keySet()){
