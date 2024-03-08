@@ -636,7 +636,13 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public void removeRaceByName(String name) throws NameNotRecognisedException {
-        // TODO Auto-generated method stub
+        for (Race race : races.values()) {
+            if (race.getName().equals(name)) {
+                races.remove(race.getRaceID());
+            } else {
+                throw new NameNotRecognisedException("Name not recognised");
+            }
+        }
 
     }
 
