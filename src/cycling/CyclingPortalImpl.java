@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,19 +16,25 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 public class CyclingPortalImpl implements CyclingPortal {
-    private static  HashMap<Integer, Race> races = new HashMap<Integer, Race>();
-    private static HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
+    private  HashMap<Integer, Race> races = new HashMap<Integer, Race>();
+    private  HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
 
+  
     public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException,
             InvalidLengthException, InvalidLocationException, InvalidStageStateException, InvalidStageTypeException, DuplicatedResultException, InvalidCheckpointTimesException, IOException, ClassNotFoundException {
+       
+        
+        
+        
         CyclingPortal cp = new CyclingPortalImpl();
-        // int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
+        int LeMansID = cp.createRace("LeMans", "GO GO GO GO");
         // // int[] ids = cp.getRaceIds();
         // // for (int id : ids) {
         // //     // System.out.print(id);
         // // }
-        // int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null,  StageType.FLAT);
-        // int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 6.0, null, StageType.FLAT);
+        int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null,  StageType.FLAT);
+        int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 200.0, null, StageType.FLAT);
+        int LeHoeID = cp.addStageToRace(LeMansID, "ConCon", "desc", 6.0, null, StageType.FLAT);
         // int[] stageIDs = cp.getRaceStages(LeMansID);
         // // cp.removeStageById(LeBonkID);
         // // System.out.println(cp.getNumberOfStages(LeMansID));
@@ -34,9 +42,12 @@ public class CyclingPortalImpl implements CyclingPortal {
         // // System.out.println(stageID);
         // // }
         // int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
-        // int LeSpermcpID = cp.addCategorizedClimbToStage(LeBonkID, 6.0, CheckpointType.C1, 6.0, 6.0);
-        // int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
-        // // for (Stage stage : races.get(LeMansID).getStages()) {
+        // int LeSpermcpID = cp.addCategorizedClimbToStage(LeDussyID, 15.0, CheckpointType.C1, 6.0, 6.0);
+        // int LeMonkkcpID = cp.addCategorizedClimbToStage(LeDussyID, 30.0, CheckpointType.C1, 6.0, 6.0);
+        int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
+        int LeStonkID1 = cp.addIntermediateSprintToStage(LeDussyID, 15.0);
+        int LeStonkID2 = cp.addIntermediateSprintToStage(LeDussyID, 30.0);
+        // for (Stage stage : races.get(LeMansID).getStages()) {
         // // if (stage.getStageID() == LeDussyID) {
         // // for (Checkpoint chepoi : stage.getCheckpoints()) {
         // // System.out.println(chepoi.getCheckpointID());
@@ -49,12 +60,12 @@ public class CyclingPortalImpl implements CyclingPortal {
         // // for (int id : cpIDs) {
         // //     // System.out.println(id);
         // // }
-        // int Lakers = cp.createTeam("laker", "desc");
-        // int Lakersss = cp.createTeam("rekal", "desc");
-        // int BronnyID = cp.createRider(Lakers, "Bronny", 2000);
-        // int B = cp.createRider(Lakers, "Lebro", 1999);
-        // int C = cp.createRider(Lakers, "Lebr", 1999);
-        // int D = cp.createRider(Lakers, "Lebr", 1999);
+        int Lakers = cp.createTeam("laker", "desc");
+        int Lakersss = cp.createTeam("rekal", "desc");
+        int BronnyID = cp.createRider(Lakers, "Bronny", 2000);
+        int B = cp.createRider(Lakers, "Lebro", 1999);
+        int C = cp.createRider(Lakers, "Lebr", 1999);
+        int D = cp.createRider(Lakers, "Lebr", 1999);
 
         // // // cp.removeRider(B);
         // // // cp.removeTeam(Lakers);
@@ -77,27 +88,98 @@ public class CyclingPortalImpl implements CyclingPortal {
         // cp.registerRiderResultsInStage(LeBonkID, C, now2 );
         // cp.registerRiderResultsInStage(LeBonkID, D, now3 );
 
+        LocalTime[] LeDussyID1 = {LocalTime.of(7, 30, 1),LocalTime.of(7, 50, 0),LocalTime.of(8, 12, 0),LocalTime.of(8, 45, 0),LocalTime.now() };
+        LocalTime[] LeDussyID2 = {LocalTime.of(7, 30, 0, 500_000_000),LocalTime.of(7, 50, 4),LocalTime.of(8, 11, 0),LocalTime.of(8, 47, 0),LocalTime.now() };
+        LocalTime[] LeDussyID3 = {LocalTime.of(8, 0, 0,750),LocalTime.of(8, 11, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.now() };
+        LocalTime[] LeDussyID4 = {LocalTime.of(8, 0, 0),LocalTime.of(8, 12, 0),LocalTime.of(8, 28, 0),LocalTime.of(8, 50, 0),LocalTime.now() };
+
+        cp.concludeStagePreparation(LeDussyID);
+        cp.registerRiderResultsInStage(LeDussyID, BronnyID, LeDussyID1);
+        cp.registerRiderResultsInStage(LeDussyID, B, LeDussyID2 );
+        cp.registerRiderResultsInStage(LeDussyID, C, LeDussyID3 );
+        cp.registerRiderResultsInStage(LeDussyID, D,LeDussyID4 );
+
+        
+        int[] mp = cp.getRidersPointsInStage(LeDussyID);
+        System.out.println(mp.length);
+        for(int m : mp){
+            System.out.println(m);
+        }
+
+        // LocalTime[] LeHoeID1 = {LocalTime.of(3, 30, 1),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] LeHoeID2 = {LocalTime.of(3, 30, 0, 500_000_000),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] LeHoeID3 = {LocalTime.of(3, 0, 0,750),LocalTime.now(),LocalTime.now() };
+        // LocalTime[] LeHoeID4 = {LocalTime.of(3, 0, 0),LocalTime.now(),LocalTime.now() };
+
+        // cp.concludeStagePreparation(LeHoeID);
+        // cp.registerRiderResultsInStage(LeHoeID,BronnyID, LeHoeID1 );
+        // cp.registerRiderResultsInStage(LeHoeID, B, LeHoeID2 );
+        // cp.registerRiderResultsInStage(LeHoeID, C, LeHoeID3 );
+        // cp.registerRiderResultsInStage(LeHoeID, D, LeHoeID4 );
+
+        // for(HashMap j : cp.getTeamRiders(Lakers)){
+        //     System.out.print()
+        // }
+        // LocalTime[] lts = cp.getGeneralClassificationTimesInRace(LeMansID);
+        // int[] ids = cp.getRidersGeneralClassificationRank(LeMansID);
+        // for (int i = 0; i < lts.length; i++) {
+        //     System.out.println("Rider's ID: " + ids[i]);
+        //     System.out.println(lts[i]);
+        //     System.out.println();
+        // }
+
+
         // cp.getRiderAdjustedElapsedTimeInStage( LeBonkID, D); 
         
         // for (LocalTime lt : cp.getRiderResultsInStage(LeBonkID, BronnyID)) {
         //     // System.out.println(lt);
         // }
-        //  LocalTime Lee = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, B);
-        //  LocalTime Lee1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, C);
-        //  System.out.println(Lee);
-        //  System.out.println(Lee1);
+        //  LocalTime Lee = cp.getRiderAdjustedElapsedTimeInStage(LeDussyID, B);
+        //  LocalTime Lee1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, B);
+        //  LocalTime Lee2 = cp.getRiderAdjustedElapsedTimeInStage(LeHoeID, B);
+        //  System.out.println("Time in stage by " + B + " time : " + Lee);
+        //  System.out.println("Time in stage " + Lee1);
+        //  System.out.println("Time in stage " + Lee2);
+        //  System.out.println();
+        //  System.out.println();
+
+        //  LocalTime L = cp.getRiderAdjustedElapsedTimeInStage(LeDussyID, C);
+        //  LocalTime L1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, C);
+        //  LocalTime L2 = cp.getRiderAdjustedElapsedTimeInStage(LeHoeID, C);
+        //  System.out.println("Time in stage by " + C + " time : " +L);
+        //  System.out.println("Time in stage " +L1);
+        //  System.out.println("Time in stage " + L2); 
+        //  System.out.println();
+         
+        //  LocalTime A = cp.getRiderAdjustedElapsedTimeInStage(LeDussyID, D);
+        //  LocalTime A1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, D);
+        //  LocalTime A2 = cp.getRiderAdjustedElapsedTimeInStage(LeHoeID, D);
+        //  System.out.println("Time in stage by " + D + " time : " +A);
+        //  System.out.println("Time in stage " +A1);
+        //  System.out.println("Time in stage " + A2);  
+        //  System.out.println();
+
+        //  LocalTime r = cp.getRiderAdjustedElapsedTimeInStage(LeDussyID, BronnyID);
+        //  LocalTime r1 = cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
+        //  LocalTime r2 = cp.getRiderAdjustedElapsedTimeInStage(LeHoeID, BronnyID);
+        //  System.out.println("Time in stage by " + BronnyID + " time : " +r);
+        //  System.out.println("Time in stage " +r1);
+        //  System.out.println("Time in stage " + r2);  
+        //  System.out.println();
+         
         // for (int i : cp.getRidersRankInStage(LeBonkID)){
         //     System.out.println(i);}
         // for (LocalTime i : cp.getRankedAdjustedElapsedTimesInStage(LeBonkID)){
         //     //  System.out.println(i);
         //     }
-        // cp.getRiderAdjustedElapsedTimeInStage(LeBonkID, BronnyID);
         
-        cp.loadCyclingPortal("Portal5.ser");
-        cp.eraseCyclingPortal();
-        for (int id : races.keySet()) {
-            System.out.println(races.get(id).getName());
-        }
+
+        
+        // cp.loadCyclingPortal("Portal5.ser");
+        // cp.eraseCyclingPortal();
+        // for (int id : races.keySet()) {
+        //     System.out.println(races.get(id).getName());
+        // }
     }
 
     public int[] getRaceIds() {
@@ -234,6 +316,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         boolean locationIsInvalid = false; 
         for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
             if (stage.getStageID() == stageId) {
+
                 if (location < 0 || location > stage.getLength()) {
                     locationIsInvalid = true;
                 }
@@ -259,7 +342,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         StageTypes.add(StageType.FLAT);
         StageTypes.add(StageType.MEDIUM_MOUNTAIN);
         StageTypes.add(StageType.HIGH_MOUNTAIN);
-        StageTypes.add(StageType.TT);
+        // StageTypes.add(StageType.TT);
         if (!StageTypes.contains(hf.getStageByID(stageId,races).getType())) {
             throw new InvalidStageTypeException("Invalid stage type");
         }
@@ -305,7 +388,14 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (stageIsInvalid) {
             throw new InvalidStageStateException("Invalid stage state");
         }
-        // NO type param to throw exception
+        ArrayList<StageType> StageTypes = new ArrayList<StageType>();
+        StageTypes.add(StageType.FLAT);
+        StageTypes.add(StageType.MEDIUM_MOUNTAIN);
+        StageTypes.add(StageType.HIGH_MOUNTAIN);
+        // StageTypes.add(StageType.TT);
+        if (!StageTypes.contains(hf.getStageByID(stageId,races).getType())) {
+            throw new InvalidStageTypeException("Invalid stage type");
+        }
         if (false) {
             throw new InvalidStageTypeException("Invalid stage type");
         }
@@ -476,6 +566,9 @@ public class CyclingPortalImpl implements CyclingPortal {
             throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException,
             InvalidStageStateException {
         HelperFunction hf = new HelperFunction();
+        if (!hf.getStagesIDs(races).contains(stageId)) {
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
         int teamID = hf.getTeamIDByRiderID(riderId, teams);
         if (teamID == 0){
             throw new IDNotRecognisedException("Rider not found in any team");
@@ -502,9 +595,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                     stage.recordRiderResult(riderId, checkpointTimes); 
                     return;
                 }
-            } else {
-                throw new IDNotRecognisedException("ID not recognised");
-            }
+            } 
         
         }
 
@@ -572,7 +663,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
         for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()) {
                 if (stage.getStageID() == stageId){
-                    return stage.getRidersRankInStage(stageId, races);}
+                    return stage.getRidersRankInStage(races);}
                 }
             return null;
     }
@@ -590,10 +681,28 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (hf.getStageByID(stageId, races) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()){
+                if (stage.getStageID() == stageId){
+                    return stage.getRidersPoints(races);
+                }
+            }
         return null;
     }
 
     public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {
+        HelperFunction hf = new HelperFunction();
+        if (hf.getStageByID(stageId, races) == null){
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        }
+        for (Stage stage : races.get(hf.getRaceIDByStageID(stageId, races)).getStages()){
+                if (stage.getStageID() == stageId){
+                    return stage.getRidersMountainPoints(races);
+                }
+            }
         return null;
     }
 
@@ -647,8 +756,37 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        HelperFunction hf = new HelperFunction();
+        HashMap<Integer, LocalTime> riderTotalAdjustedElapsedTimes = new HashMap<Integer, LocalTime>();
+
+        // Loop through each stage and find the accumulated Adjusted Elapsed Times for each rider
+        for (Stage stage : races.get(raceId).getStages()) {
+            for (int riderID : stage.getRidersAdjustedElapsedTimes().keySet()) {
+                // Return an empty array if there is no result for any stage in the race 
+                for (int riderIDcheck : riderTotalAdjustedElapsedTimes.keySet()) {
+                    if (!stage.getRidersAdjustedElapsedTimes().containsKey(riderIDcheck)) {
+                        LocalTime[] emptyArray = {};
+                        return emptyArray;
+                    }
+                }
+                if (riderTotalAdjustedElapsedTimes.containsKey(riderID)) {
+                    riderTotalAdjustedElapsedTimes.put(riderID, hf.sumTwoLocalTime(riderTotalAdjustedElapsedTimes.get(riderID), stage.getRidersAdjustedElapsedTimes().get(riderID)));
+                } else {
+                    riderTotalAdjustedElapsedTimes.put(riderID, stage.getRidersAdjustedElapsedTimes().get(riderID));
+                }
+            }
+        }
+
+        // Sort the entries in descending order of LocalTime values
+        ArrayList<Map.Entry<Integer, LocalTime>> sortedEntries = new ArrayList<>(riderTotalAdjustedElapsedTimes.entrySet());
+        Collections.sort(sortedEntries, (entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+
+        // Extract the keys into the GCrank array
+        LocalTime[] GCtimes = new LocalTime[sortedEntries.size()];
+        for (int i = 0; i < sortedEntries.size(); i++) {
+            GCtimes[i] = sortedEntries.get(i).getValue();
+        }
+        return GCtimes;
     }
 
     public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
@@ -657,13 +795,53 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");
+        // ArrayList<Integer> Mpoints = new ArrayList<Integer>();
+        // for (Stage stage : race.getStages()){
+        //     for(int riderID : getRidersGeneralClassificationRank(raceId)){
+        //         stage.getRidersMountainPoints(races);
+        //         }
+                
+        //     }
+        }
         return null;
     }
 
     public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        HelperFunction hf = new HelperFunction();
+        HashMap<Integer, LocalTime> riderTotalAdjustedElapsedTimes = new HashMap<Integer, LocalTime>();
+
+        // Loop through each stage and find the accumulated Adjusted Elapsed Times for each rider
+        for (Stage stage : races.get(raceId).getStages()) {
+            for (int riderID : stage.getRidersAdjustedElapsedTimes().keySet()) {
+                // Return an empty array if there is no result for any stage in the race 
+                for (int riderIDcheck : riderTotalAdjustedElapsedTimes.keySet()) {
+                    if (!stage.getRidersAdjustedElapsedTimes().containsKey(riderIDcheck)) {
+                        int[] emptyArray = {};
+                        return emptyArray;
+                    }
+                }
+                if (riderTotalAdjustedElapsedTimes.containsKey(riderID)) {
+                    riderTotalAdjustedElapsedTimes.put(riderID, hf.sumTwoLocalTime(riderTotalAdjustedElapsedTimes.get(riderID), stage.getRidersAdjustedElapsedTimes().get(riderID)));
+                } else {
+                    riderTotalAdjustedElapsedTimes.put(riderID, stage.getRidersAdjustedElapsedTimes().get(riderID));
+                }
+            }
+        }
+
+        // Sort the entries in descending order of LocalTime values
+        ArrayList<Map.Entry<Integer, LocalTime>> sortedEntries = new ArrayList<>(riderTotalAdjustedElapsedTimes.entrySet());
+        Collections.sort(sortedEntries, (entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+
+        // Extract the keys into the GCrank array
+        int[] GCrank = new int[sortedEntries.size()];
+        for (int i = 0; i < sortedEntries.size(); i++) {
+            GCrank[i] = sortedEntries.get(i).getKey();
+        }
+
+        return GCrank;
     }
 
     public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {

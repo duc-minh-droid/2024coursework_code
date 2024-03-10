@@ -1,6 +1,9 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Race implements Serializable {
     private final int raceID;
@@ -8,6 +11,7 @@ public class Race implements Serializable {
     private String description;
     private double length;
     private ArrayList<Stage> stages = new ArrayList<Stage>();
+    
 
     public Race(String name, String description) {
         HelperFunction hf = new HelperFunction();
@@ -41,4 +45,6 @@ public class Race implements Serializable {
         stages.add(stage);
         return stage.getStageID();    
     }
+
+   
 }

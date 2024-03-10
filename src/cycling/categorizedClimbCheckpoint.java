@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.HashMap;
 
 public class CategorizedClimbCheckpoint implements Checkpoint, Serializable {
     private int stageID;
@@ -7,6 +9,7 @@ public class CategorizedClimbCheckpoint implements Checkpoint, Serializable {
     private double averageGradient;
     private double length;
     private int checkpointID;
+    private HashMap<Integer,LocalTime> RiderResults = new HashMap<Integer,LocalTime>();
 
     public CategorizedClimbCheckpoint (int stageId, double location, CheckpointType checkpointType,
             double averageGradient, double length) {
@@ -22,5 +25,17 @@ public class CategorizedClimbCheckpoint implements Checkpoint, Serializable {
 
     public int getCheckpointID() {
         return checkpointID;
+    }
+
+    public CheckpointType getCheckpointType() {
+        return checkpointType;
+    }
+
+    public HashMap<Integer,LocalTime> getRiderResults(){
+        return RiderResults;
+    }
+
+    public void putRiderResult(int id, LocalTime time){
+        RiderResults.put(id, time);
     }
 }

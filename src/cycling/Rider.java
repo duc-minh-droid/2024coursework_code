@@ -22,4 +22,6 @@ public class Rider implements Serializable{
     public int getTeamID(){
         return teamID;
     }
+
+
 }
