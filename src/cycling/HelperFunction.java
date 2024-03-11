@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.UUID;
@@ -24,6 +26,25 @@ public class HelperFunction {
         points.put(StageType.TT, TTpoints);
         
         return points;
+    }
+
+    public static int[] sortHashMapByValues(LinkedHashMap<Integer, Integer> map) {
+        // Convert LinkedHashMap entries to a list
+        List<Map.Entry<Integer, Integer>> entryList = new LinkedList<>(map.entrySet());
+
+        // Sort the list based on values
+        entryList.sort(Map.Entry.comparingByValue());
+
+        // Create an array to store sorted keys
+        int[] sortedKeys = new int[entryList.size()];
+
+        // Extract sorted keys into the array
+        int i = 0;
+        for (Map.Entry<Integer, Integer> entry : entryList) {
+            sortedKeys[i++] = entry.getKey();
+        }
+
+        return sortedKeys;
     }
 
     public int retrieveStagePoint(int position, StageType type) {

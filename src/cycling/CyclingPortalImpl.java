@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.io.FileOutputStream;
@@ -32,7 +35,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         // // for (int id : ids) {
         // //     // System.out.print(id);
         // // }
-        int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 6.0, null,  StageType.FLAT);
+        int LeBonkID = cp.addStageToRace(LeMansID, "COCO", "desc", 50.0, null,  StageType.FLAT);
         int LeDussyID = cp.addStageToRace(LeMansID, "ConCo", "desc", 200.0, null, StageType.FLAT);
         int LeHoeID = cp.addStageToRace(LeMansID, "ConCon", "desc", 6.0, null, StageType.FLAT);
         // int[] stageIDs = cp.getRaceStages(LeMansID);
@@ -41,12 +44,21 @@ public class CyclingPortalImpl implements CyclingPortal {
         // // for (int stageID: cp.getRaceStages(LeMansID)) {
         // // System.out.println(stageID);
         // // }
-        // int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
-        // int LeSpermcpID = cp.addCategorizedClimbToStage(LeDussyID, 15.0, CheckpointType.C1, 6.0, 6.0);
-        // int LeMonkkcpID = cp.addCategorizedClimbToStage(LeDussyID, 30.0, CheckpointType.C1, 6.0, 6.0);
-        int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
-        int LeStonkID1 = cp.addIntermediateSprintToStage(LeDussyID, 15.0);
-        int LeStonkID2 = cp.addIntermediateSprintToStage(LeDussyID, 30.0);
+        int LeMonkcpID = cp.addCategorizedClimbToStage(LeDussyID, 6.0, CheckpointType.C1, 6.0, 6.0);
+        int LeSpermcpID = cp.addCategorizedClimbToStage(LeDussyID, 15.0, CheckpointType.C1, 6.0, 6.0);
+        int LeMonkkcpID = cp.addCategorizedClimbToStage(LeDussyID, 30.0, CheckpointType.C1, 6.0, 6.0);
+
+        int LeMonk1cpID = cp.addCategorizedClimbToStage(LeBonkID, 6.0, CheckpointType.C1, 6.0, 6.0);
+        int LeSperm1cpID = cp.addCategorizedClimbToStage(LeBonkID, 15.0, CheckpointType.C1, 6.0, 6.0);
+        int LeMonkk1cpID = cp.addCategorizedClimbToStage(LeBonkID, 30.0, CheckpointType.C1, 6.0, 6.0);
+        
+        // int LeStonkcpID = cp.addIntermediateSprintToStage(LeDussyID, 6.0);
+        // int LeStonkID1 = cp.addIntermediateSprintToStage(LeDussyID, 15.0);
+        // int LeStonkID2 = cp.addIntermediateSprintToStage(LeDussyID, 30.0);
+
+        // int LeStonkcpID3 = cp.addIntermediateSprintToStage(LeBonkID, 6.0);
+        // int LeStonkID4 = cp.addIntermediateSprintToStage(LeBonkID, 15.0);
+        // int LeStonkID5 = cp.addIntermediateSprintToStage(LeBonkID, 30.0);
         // for (Stage stage : races.get(LeMansID).getStages()) {
         // // if (stage.getStageID() == LeDussyID) {
         // // for (Checkpoint chepoi : stage.getCheckpoints()) {
@@ -99,8 +111,19 @@ public class CyclingPortalImpl implements CyclingPortal {
         cp.registerRiderResultsInStage(LeDussyID, C, LeDussyID3 );
         cp.registerRiderResultsInStage(LeDussyID, D,LeDussyID4 );
 
+        LocalTime[] LeBonkID1 = {LocalTime.of(6, 20, 1),LocalTime.of(7, 50, 0),LocalTime.of(7, 10, 0),LocalTime.of(8, 45, 0),LocalTime.now() };
+        LocalTime[] LeBonkID2 = {LocalTime.of(6, 30, 0, 500_000_000),LocalTime.of(7, 20, 4),LocalTime.of(8, 11, 0),LocalTime.of(8, 47, 0),LocalTime.now() };
+        LocalTime[] LeBonkID3 = {LocalTime.of(7, 0, 0,750),LocalTime.of(7, 51, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.now() };
+        LocalTime[] LeBonkID4 = {LocalTime.of(7, 0, 0),LocalTime.of(7, 52, 0),LocalTime.of(8, 28, 0),LocalTime.of(8, 50, 0),LocalTime.now() };
+
+        cp.concludeStagePreparation(LeBonkID);
+        cp.registerRiderResultsInStage(LeBonkID, BronnyID, LeDussyID1);
+        cp.registerRiderResultsInStage(LeBonkID, B, LeDussyID2 );
+        cp.registerRiderResultsInStage(LeBonkID, C, LeDussyID3 );
+        cp.registerRiderResultsInStage(LeBonkID, D,LeDussyID4 );
+
         
-        int[] mp = cp.getRidersPointsInStage(LeDussyID);
+        int[] mp = cp.getRidersMountainPointsInRace(LeMansID);
         System.out.println(mp.length);
         for(int m : mp){
             System.out.println(m);
@@ -603,7 +626,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
     public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
         HelperFunction hf = new HelperFunction();
-        if (!hf.getStagesIDs(races).contains(stageId)) {
+        if (!HelperFunction.getStagesIDs(races).contains(stageId)) {
             throw new IDNotRecognisedException("Stage's ID not recognised");
         }
         if (!hf.getRidersIDs(teams).contains(riderId)) {
@@ -790,24 +813,60 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
+        int[] ridersRaceTotalPoints = new int[getRidersGeneralClassificationRank(raceId).length];
         Race race = races.get(raceId);
         if (race == null) {
             throw new IDNotRecognisedException("Race not found");
-        // ArrayList<Integer> Mpoints = new ArrayList<Integer>();
-        // for (Stage stage : race.getStages()){
-        //     for(int riderID : getRidersGeneralClassificationRank(raceId)){
-        //         stage.getRidersMountainPoints(races);
-        //         }
-                
-        //     }
         }
-        return null;
+
+        int totalRiderPoints = 0;
+        // Loop through each rider ID in GC rank and add up their total point of each stage
+        for(int riderID : getRidersGeneralClassificationRank(raceId)){ 
+            for (Stage stage : race.getStages()){
+                HashMap<Integer, Integer> ridersTotalPointsInStage = stage.getridersTotalPointsInStage();
+                if (ridersTotalPointsInStage.keySet().contains(riderID)){
+                    totalRiderPoints += ridersTotalPointsInStage.get(riderID);               
+                }else {
+                    int[] emptyArray = {};
+                    return emptyArray;
+                }
+            ridersRaceTotalPoints = Arrays.copyOf(ridersRaceTotalPoints, ridersRaceTotalPoints.length + 1);
+            ridersRaceTotalPoints[ridersRaceTotalPoints.length -1 ] = totalRiderPoints;
+            race.putRidersTotalPointsInRace(riderID, totalRiderPoints);
+            } 
+        }
+        return ridersRaceTotalPoints;    
     }
+
+    public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
+        int[] ridersRaceTotalMountainPoints = new int[getRidersGeneralClassificationRank(raceId).length];
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");
+        }
+
+        int totalRiderPoints = 0;
+        // Loop through each rider ID in GC rank and add up their total point of each stage
+        for(int riderID : getRidersGeneralClassificationRank(raceId)){ 
+            for (Stage stage : race.getStages()){
+                HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
+                for (int i : ridersTotalMountainPointsInStage.keySet()) {
+                    System.out.println(i);
+                }
+                if (ridersTotalMountainPointsInStage.keySet().contains(riderID)){
+                    totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);              
+                }else {
+                    int[] emptyArray = {};
+                    return emptyArray;
+                }
+            ridersRaceTotalMountainPoints = Arrays.copyOf(ridersRaceTotalMountainPoints, ridersRaceTotalMountainPoints.length + 1);
+            ridersRaceTotalMountainPoints[ridersRaceTotalMountainPoints.length -1 ] = totalRiderPoints;
+            race.putRidersTotalMountainPointsInRace(riderID, totalRiderPoints);
+            } 
+        }
+        return ridersRaceTotalMountainPoints;    
+    }
+    
 
     public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
         HelperFunction hf = new HelperFunction();
@@ -845,13 +904,25 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");
+        }
+        LinkedHashMap<Integer, Integer> ridersTotalPointsInRace = race.getRidersTotalPointsInRace();
+        int[] sortedKeys = HelperFunction.sortHashMapByValues(ridersTotalPointsInRace);
+        return sortedKeys;
     }
 
     public int[] getRidersMountainPointClassificationRank(int raceId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        Race race = races.get(raceId);
+        if (race == null) {
+            throw new IDNotRecognisedException("Race not found");
+        }
+        LinkedHashMap<Integer, Integer> ridersTotalPointsInRace = race.getRidersTotalMountainPointsInRace();
+        int[] sortedKeys = HelperFunction.sortHashMapByValues(ridersTotalPointsInRace);
+        return sortedKeys;
     }
+
+    
 
 }
