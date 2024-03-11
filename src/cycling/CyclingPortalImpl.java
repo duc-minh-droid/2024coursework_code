@@ -823,7 +823,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Loop through each rider ID in GC rank and add up their total point of each stage
         for(int riderID : getRidersGeneralClassificationRank(raceId)){ 
             for (Stage stage : race.getStages()){
-                HashMap<Integer, Integer> ridersTotalPointsInStage = stage.getridersTotalPointsInStage();
+                HashMap<Integer, Integer> ridersTotalPointsInStage = stage.getRidersTotalPointsInStage();
                 if (ridersTotalPointsInStage.keySet().contains(riderID)){
                     totalRiderPoints += ridersTotalPointsInStage.get(riderID);               
                 }else {
