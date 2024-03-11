@@ -121,6 +121,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         cp.registerRiderResultsInStage(LeBonkID, B, LeDussyID2 );
         cp.registerRiderResultsInStage(LeBonkID, C, LeDussyID3 );
         cp.registerRiderResultsInStage(LeBonkID, D,LeDussyID4 );
+        // Stage stage
 
         
         int[] mp = cp.getRidersMountainPointsInRace(LeMansID);
@@ -847,9 +848,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 
         int totalRiderPoints = 0;
         // Loop through each rider ID in GC rank and add up their total point of each stage
-        for(int riderID : getRidersGeneralClassificationRank(raceId)){ 
-            for (Stage stage : race.getStages()){
-                HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
+        
+        for (Stage stage : race.getStages()){
+            HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
+            for(int riderID : getRidersGeneralClassificationRank(raceId)){
                 for (int i : ridersTotalMountainPointsInStage.keySet()) {
                     System.out.println(i);
                 }
