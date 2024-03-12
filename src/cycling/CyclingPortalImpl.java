@@ -124,11 +124,17 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Stage stage
 
         
-        int[] mp = cp.getRidersMountainPointsInRace(LeMansID);
-        System.out.println(mp.length);
-        for(int m : mp){
-            System.out.println(m);
-        }
+        // int[] mp = cp.getRidersGeneralClassificationRank(LeMansID);
+        // System.out.println(mp.length);
+        // for(int m : mp){
+        //     System.out.println(m);
+        // }
+        
+        // Stage stage = new Stage(LeMansID, "COCO", "desc", 50.0, null,  StageType.FLAT);
+        // int [] mpp = stage.getRidersMountainPoints(races);
+        // for(int n : mpp){
+        //     System.out.println(n);
+        // }
 
         // LocalTime[] LeHoeID1 = {LocalTime.of(3, 30, 1),LocalTime.now(),LocalTime.now() };
         // LocalTime[] LeHoeID2 = {LocalTime.of(3, 30, 0, 500_000_000),LocalTime.now(),LocalTime.now() };
@@ -848,26 +854,26 @@ public class CyclingPortalImpl implements CyclingPortal {
 
         int totalRiderPoints = 0;
         // Loop through each rider ID in GC rank and add up their total point of each stage
-        
-        for (Stage stage : race.getStages()){
-            HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
-            for(int riderID : getRidersGeneralClassificationRank(raceId)){
+        for(int riderID : getRidersGeneralClassificationRank(raceId)){
+            for (Stage stage : race.getStages()){
+                HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
                 for (int i : ridersTotalMountainPointsInStage.keySet()) {
                     System.out.println(i);
                 }
-                if (ridersTotalMountainPointsInStage.keySet().contains(riderID)){
-                    totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);              
-                }else {
-                    int[] emptyArray = {};
-                    return emptyArray;
-                }
+                    if (ridersTotalMountainPointsInStage.containsKey(riderID)){
+                        totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);              
+                    }else {
+                        int[] emptyArray = {};
+                        return emptyArray;
+                    }
             ridersRaceTotalMountainPoints = Arrays.copyOf(ridersRaceTotalMountainPoints, ridersRaceTotalMountainPoints.length + 1);
             ridersRaceTotalMountainPoints[ridersRaceTotalMountainPoints.length -1 ] = totalRiderPoints;
             race.putRidersTotalMountainPointsInRace(riderID, totalRiderPoints);
-            } 
+            }
         }
         return ridersRaceTotalMountainPoints;    
     }
+    
     
 
     public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
