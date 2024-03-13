@@ -52,7 +52,6 @@ public class Stage implements Serializable {
                 LocalTime[] times = checkpoint.getRiderResults().values().toArray(new LocalTime[0]);
                 Arrays.sort(times, Comparator.naturalOrder());
                 for (int i = 0; i < times.length; i++) {
-                    System.out.println(times[i] + " not equals to " + mountTime);
                     if (times[i].equals(mountTime)) {
                         return i;
                     }
@@ -148,7 +147,6 @@ public class Stage implements Serializable {
         HelperFunction hf = new HelperFunction();
         // Get each rider's points for each rider's rank
         for (int riderID : ridersRanks) {
-            System.out.println();
             if (!riderObjectResults.containsKey(riderID)  ) {
                 int[] emptyArray = {};
                 return emptyArray;

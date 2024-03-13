@@ -98,10 +98,10 @@ public class CyclingPortalImpl implements CyclingPortal {
         // cp.registerRiderResultsInStage(LeBonkID, C, now2 );
         // cp.registerRiderResultsInStage(LeBonkID, D, now3 );
 
-        LocalTime[] LeDussyID1 = {LocalTime.of(7, 30, 1),LocalTime.of(7, 50, 0),LocalTime.of(8, 12, 0),LocalTime.of(8, 45, 0),LocalTime.of(9, 0,0) };
-        LocalTime[] LeDussyID2 = {LocalTime.of(7, 30, 0, 500_000_000),LocalTime.of(7, 50, 4),LocalTime.of(8, 11, 0),LocalTime.of(8, 47, 0),LocalTime.of(8,59 ,0) };
-        LocalTime[] LeDussyID3 = {LocalTime.of(8, 0, 0,750),LocalTime.of(8, 11, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.of(9, 10,0) };
-        LocalTime[] LeDussyID4 = {LocalTime.of(8, 10, 0),LocalTime.of(8, 32, 0),LocalTime.of(8, 48, 0),LocalTime.of(9, 0, 0),LocalTime.of(9, 20,0) };
+        LocalTime[] LeDussyID1 = {LocalTime.of(7, 30, 0),LocalTime.of(7, 40, 0),LocalTime.of(8, 0, 0),LocalTime.of(8, 30, 0),LocalTime.of(9, 0,0) };
+        LocalTime[] LeDussyID2 = {LocalTime.of(7, 30, 0),LocalTime.of(7, 50, 4),LocalTime.of(8, 11, 0),LocalTime.of(8, 47, 0),LocalTime.of(9,15 ,0) };
+        LocalTime[] LeDussyID3 = {LocalTime.of(7, 30, 0),LocalTime.of(8, 11, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.of(9, 10,0) };
+        LocalTime[] LeDussyID4 = {LocalTime.of(7, 30, 0),LocalTime.of(8, 32, 0),LocalTime.of(8, 48, 0),LocalTime.of(9, 0, 0),LocalTime.of(9, 20,0) };
 
         cp.concludeStagePreparation(LeDussyID);
         cp.registerRiderResultsInStage(LeDussyID, BronnyID, LeDussyID1);
@@ -109,10 +109,10 @@ public class CyclingPortalImpl implements CyclingPortal {
         cp.registerRiderResultsInStage(LeDussyID, C, LeDussyID3 );
         cp.registerRiderResultsInStage(LeDussyID, D,LeDussyID4 );
 
-        LocalTime[] LeBonkID1 = {LocalTime.of(6, 20, 1),LocalTime.of(7, 50, 0),LocalTime.of(7, 10, 0),LocalTime.of(8, 45, 0),LocalTime.of(9, 10,0) };
-        LocalTime[] LeBonkID2 = {LocalTime.of(6, 30, 0, 500_000_000),LocalTime.of(7, 20, 4),LocalTime.of(8, 11, 0),LocalTime.of(8, 47, 0),LocalTime.of(9, 20,0) };
-        LocalTime[] LeBonkID3 = {LocalTime.of(7, 0, 0,750),LocalTime.of(7, 51, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.of(9, 30,0)};
-        LocalTime[] LeBonkID4 = {LocalTime.of(7, 2, 0),LocalTime.of(7, 52, 0),LocalTime.of(8, 28, 0),LocalTime.of(8, 50, 0),LocalTime.of(9, 35,0)};
+        LocalTime[] LeBonkID1 = {LocalTime.of(6, 20, 0),LocalTime.of(7, 20, 0),LocalTime.of(8, 00, 0),LocalTime.of(8, 35, 0),LocalTime.of(9, 0,0) };
+        LocalTime[] LeBonkID2 = {LocalTime.of(6, 20, 0),LocalTime.of(7, 40, 4),LocalTime.of(8, 21, 0),LocalTime.of(8, 47, 0),LocalTime.of(9, 20,0) };
+        LocalTime[] LeBonkID3 = {LocalTime.of(6, 20, 0),LocalTime.of(7, 50, 0),LocalTime.of(8, 32, 0),LocalTime.of(8,46, 0),LocalTime.of(9, 30,0)};
+        LocalTime[] LeBonkID4 = {LocalTime.of(6, 20, 0),LocalTime.of(7, 55, 0),LocalTime.of(8, 28, 0),LocalTime.of(8, 50, 0),LocalTime.of(9, 35,0)};
 
         cp.concludeStagePreparation(LeBonkID);
         cp.registerRiderResultsInStage(LeBonkID, BronnyID, LeBonkID1);
