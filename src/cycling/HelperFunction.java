@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.time.LocalTime;
 import java.time.Duration;
-
+import java.util.*;
 
 public class HelperFunction {
-    public HashMap<StageType, ArrayList<Integer>> stagePointsDistributionMatrix(){
+        public static HashMap<StageType, ArrayList<Integer>> stagePointsDistributionMatrix(){
         HashMap<StageType, ArrayList<Integer>> points = new HashMap<StageType, ArrayList<Integer>>();
         ArrayList<Integer> Fpoints = new ArrayList<Integer>(Arrays.asList(50, 30, 20, 18, 16, 14, 12, 10 ,8, 7, 6, 5, 4, 3, 2));
         ArrayList<Integer> Mpoints = new ArrayList<Integer>(Arrays.asList(30, 25, 22, 19 , 17, 15, 13, 11, 9, 7, 6, 5, 4, 3, 2));
@@ -26,6 +26,21 @@ public class HelperFunction {
         points.put(StageType.TT, TTpoints);
         
         return points;
+    }
+    public static LinkedHashMap<Integer, LocalTime> sortLinkedHashMapByValue(LinkedHashMap<Integer, LocalTime> map) {
+        /// Convert the LinkedHashMap entries to a list for sorting
+        List<Map.Entry<Integer, LocalTime>> entryList = new ArrayList<>(map.entrySet());
+
+        // Sort the list based on the values (LocalTime objects)
+        entryList.sort(Map.Entry.comparingByValue());
+
+        // Create a new LinkedHashMap to store the sorted entries
+        LinkedHashMap<Integer, LocalTime> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<Integer, LocalTime> entry : entryList) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
     }
 
     public static int[] sortHashMapByValues(LinkedHashMap<Integer, Integer> map) {
@@ -47,22 +62,22 @@ public class HelperFunction {
         return sortedKeys;
     }
 
-    public int retrieveStagePoint(int position, StageType type) {
+    public static int retrieveStagePoint(int position, StageType type) {
         HashMap<StageType, ArrayList<Integer>> Spoints = stagePointsDistributionMatrix();
         return Spoints.get(type).get(position);
     }
 
-    public ArrayList<Integer> intermediateSprintPointsDistribution(){
+    public static ArrayList<Integer> intermediateSprintPointsDistribution(){
      ArrayList<Integer> ISpoints = new ArrayList<Integer>(Arrays.asList(20, 17, 15, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1));
      return ISpoints;
     }
 
-    public int retrieveSprintPoint(int position) {
+    public static int retrieveSprintPoint(int position) {
         ArrayList<Integer> ISpoints = intermediateSprintPointsDistribution();
         return ISpoints.get(position);
     }
 
-    public HashMap<CheckpointType, ArrayList<Integer>> MountainPointsDistribution(){
+    public static HashMap<CheckpointType, ArrayList<Integer>> MountainPointsDistribution(){
         HashMap<CheckpointType, ArrayList<Integer>> Mpoints = new HashMap<CheckpointType, ArrayList<Integer>>();
         ArrayList<Integer> C4 = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0, 0, 0, 0));
         ArrayList<Integer> C3 = new ArrayList<Integer>(Arrays.asList(2, 1, 0, 0, 0, 0, 0, 0));
@@ -77,12 +92,12 @@ public class HelperFunction {
         return Mpoints;
     } 
 
-    public int retrieveMountainPoint(int position, CheckpointType type) {
+    public static int retrieveMountainPoint(int position, CheckpointType type) {
         HashMap<CheckpointType, ArrayList<Integer>> Mpoints = MountainPointsDistribution();
         return Mpoints.get(type).get(position);
     }
 
-    public LocalTime getElapsedTime(LocalTime startTime, LocalTime endTime) {
+    public static LocalTime getElapsedTime(LocalTime startTime, LocalTime endTime) {
         // Calculate duration between the two times
         Duration duration = Duration.between(startTime, endTime);
 
@@ -96,7 +111,7 @@ public class HelperFunction {
         return LocalTime.ofNanoOfDay(hours * 3600_000_000_000L + minutes * 60_000_000_000L + seconds * 1_000_000_000L + nanos);
     }
 
-    public ArrayList<String> getRacesNames(HashMap<Integer, Race> races) {
+    public static ArrayList<String> getRacesNames(HashMap<Integer, Race> races) {
         ArrayList<String> racesNames = new ArrayList<>();
         for (Race race : races.values()) {
             racesNames.add(race.getName());
@@ -104,7 +119,7 @@ public class HelperFunction {
         return racesNames;
     }
 
-    public ArrayList<String> getTeamsNames(HashMap<Integer, Team> teams) {
+    public static ArrayList<String> getTeamsNames(HashMap<Integer, Team> teams) {
         ArrayList<String> teamsNames = new ArrayList<>();
         for (Team team : teams.values()) {
             teamsNames.add(team.getTeamName());
@@ -112,7 +127,7 @@ public class HelperFunction {
         return teamsNames;
     }
 
-    public ArrayList<String> getStagesNames(HashMap<Integer, Race> races) {
+    public static ArrayList<String> getStagesNames(HashMap<Integer, Race> races) {
         ArrayList<String> stagesNames = new ArrayList<>();
         for (Race race : races.values()) {
             for (Stage stage : race.getStages()) {

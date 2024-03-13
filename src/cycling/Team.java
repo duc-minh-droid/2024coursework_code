@@ -24,12 +24,6 @@ public class Team implements Serializable{
         return teamID;
     }
 
-    public int createNewRider(int teamID, String riderName, int yearOfBirth){
-    Rider rider = new Rider(teamID,riderName, yearOfBirth);
-        riders.put(rider.getRiderID(), rider);
-        return rider.getRiderID();
-    }
-
     public HashMap<Integer, Rider> getRiders(){
         return riders;
     }
@@ -77,6 +71,14 @@ public class Team implements Serializable{
         //return the the array with riders' Id
         return riderIDs;
     }
+
+    public int createNewRider(int teamID, String riderName, int yearOfBirth){
+        Rider rider = new Rider(teamID,riderName, yearOfBirth);
+        riders.put(rider.getRiderID(), rider);
+        return rider.getRiderID();
+    }
+
+     
 
     
 }

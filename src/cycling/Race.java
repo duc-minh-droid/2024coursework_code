@@ -4,6 +4,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Collections;
+
 import java.util.LinkedHashMap;
 
 public class Race implements Serializable {
@@ -16,10 +19,10 @@ public class Race implements Serializable {
     private LinkedHashMap<Integer, Integer> ridersTotalPointsInRace = new LinkedHashMap<Integer, Integer>();
 
     public Race(String name, String description) {
-        HelperFunction hf = new HelperFunction();
+        
         this.name = name;
         this.description = description;
-        this.raceId = hf.generateUniqueId();
+        this.raceId = HelperFunction.generateUniqueId();
     }
 
     public LinkedHashMap<Integer, Integer> getRidersTotalMountainPointsInRace() {
@@ -34,27 +37,6 @@ public class Race implements Serializable {
     public void putRidersTotalPointsInRace(int id, int points) {
          ridersTotalPointsInRace.put(id, points);
     }
-    // public int[] getRidersMountainPointsInRace() {
-    //     int[] ridersRaceTotalMountainPoints = new int[getRidersGeneralClassificationRank(raceId).length];
-
-    //     int totalRiderPoints = 0;
-    //     // Loop through each rider ID in GC rank and add up their total point of each stage
-    //     for(int riderID : getRidersGeneralClassificationRank(raceId)){ 
-    //         for (Stage stage : stages){
-    //             HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getridersTotalMountainPointsInStage();
-    //             if (ridersTotalMountainPointsInStage.keySet().contains(riderID)){
-    //                 totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);               
-    //             }else {
-    //                 int[] emptyArray = {};
-    //                 return emptyArray;
-    //             }
-    //         ridersRaceTotalMountainPoints = Arrays.copyOf(ridersRaceTotalMountainPoints, ridersRaceTotalMountainPoints.length + 1);
-    //         ridersRaceTotalMountainPoints[ridersRaceTotalMountainPoints.length -1 ] = totalRiderPoints;
-    //         } 
-    //     }
-    //     return ridersRaceTotalMountainPoints;    
-    // }
-
     public int getRaceId(){
         return raceId;
     }
@@ -135,6 +117,133 @@ public class Race implements Serializable {
         //return the the array with stages' Id
         return raceStageIDs;
     }
+    public int[] getRidersMountainPointClassificationRank() {
+        LinkedHashMap<Integer, Integer> ridersTotalPointsInRace = getRidersTotalMountainPointsInRace();
+        int[] sortedKeys = HelperFunction.sortHashMapByValues(ridersTotalPointsInRace);
+        return sortedKeys;
+    }
 
+    public int[] getRidersPointClassificationRank() {
+        LinkedHashMap<Integer, Integer> ridersTotalPointsInRace = getRidersTotalPointsInRace();
+        int[] sortedKeys = HelperFunction.sortHashMapByValues(ridersTotalPointsInRace);
+        return sortedKeys;
+    }
+    public int[] getRidersGeneralClassificationRank() {
+        
+        HashMap<Integer, LocalTime> riderTotalAdjustedElapsedTimes = new HashMap<Integer, LocalTime>();
+
+        // Loop through each stage and find the accumulated Adjusted Elapsed Times for each rider
+        for (Stage stage : stages) {
+            for (int riderID : stage.getRidersAdjustedElapsedTimes().keySet()) {
+                // Return an empty array if there is no result for any stage in the race 
+                for (int riderIDcheck : riderTotalAdjustedElapsedTimes.keySet()) {
+                    if (!stage.getRidersAdjustedElapsedTimes().containsKey(riderIDcheck)) {
+                        int[] emptyArray = {};
+                        return emptyArray;
+                    }
+                }
+                if (riderTotalAdjustedElapsedTimes.containsKey(riderID)) {
+                    riderTotalAdjustedElapsedTimes.put(riderID, HelperFunction.sumTwoLocalTime(riderTotalAdjustedElapsedTimes.get(riderID), stage.getRidersAdjustedElapsedTimes().get(riderID)));
+                } else {
+                    riderTotalAdjustedElapsedTimes.put(riderID, stage.getRidersAdjustedElapsedTimes().get(riderID));
+                }
+            }
+        }
+
+        // Sort the entries in descending order of LocalTime values
+        ArrayList<Map.Entry<Integer, LocalTime>> sortedEntries = new ArrayList<>(riderTotalAdjustedElapsedTimes.entrySet());
+        Collections.sort(sortedEntries, (entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+
+        // Extract the keys into the GCrank array
+        int[] GCrank = new int[sortedEntries.size()];
+        for (int i = 0; i < sortedEntries.size(); i++) {
+            GCrank[i] = sortedEntries.get(i).getKey();
+        }
+
+        return GCrank;
+    }
+
+    public int[] getRidersPointsInRace() {
+        int[] ridersRaceTotalPoints = {};
+
+        // Loop through each rider ID in GC rank and add up their total point of each stage
+        for(int riderID : getRidersGeneralClassificationRank()){ 
+            int totalRiderPoints = 0;
+            for (Stage stage : stages){
+                HashMap<Integer, Integer> ridersTotalPointsInStage = stage.getRidersTotalPointsInStage();
+                if (ridersTotalPointsInStage.keySet().contains(riderID)){
+                    totalRiderPoints += ridersTotalPointsInStage.get(riderID);               
+                }else {
+                    int[] emptyArray = {};
+                    return emptyArray;
+                 }
+                } 
+            
+            // Add element to the returning array
+        ridersRaceTotalPoints = Arrays.copyOf(ridersRaceTotalPoints, ridersRaceTotalPoints.length + 1);
+        ridersRaceTotalPoints[ridersRaceTotalPoints.length -1 ] = totalRiderPoints;
+        putRidersTotalPointsInRace(riderID, totalRiderPoints);
+        }
+        return ridersRaceTotalPoints;    
+    }   
+
+    public int[] getRidersMountainPointsInRace() {
+        int[] ridersRaceTotalMountainPoints = {};
+
+        // Loop through each rider ID in GC rank and add up their total point of each stage
+        for(int riderID : getRidersGeneralClassificationRank()){
+
+            int totalRiderPoints = 0;
+            for (Stage stage : stages){
+                HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
+                    if (ridersTotalMountainPointsInStage.containsKey(riderID)){
+                        totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);        
+                    }else {
+                        int[] emptyArray = {};
+                        return emptyArray;
+                    }
+            }
+            // Add element to the returning array
+            ridersRaceTotalMountainPoints = Arrays.copyOf(ridersRaceTotalMountainPoints, ridersRaceTotalMountainPoints.length + 1);
+            ridersRaceTotalMountainPoints[ridersRaceTotalMountainPoints.length -1 ] = totalRiderPoints;
+            putRidersTotalMountainPointsInRace(riderID, totalRiderPoints);
+            
+        }
+        return ridersRaceTotalMountainPoints;  
+    }
+
+    public LocalTime[] getGeneralClassificationTimesInRace() {
+        
+        HashMap<Integer, LocalTime> riderTotalAdjustedElapsedTimes = new HashMap<Integer, LocalTime>();
+
+        // Loop through each stage and find the accumulated Adjusted Elapsed Times for each rider
+        for (Stage stage : stages) {
+            for (int riderID : stage.getRidersAdjustedElapsedTimes().keySet()) {
+                // Return an empty array if there is no result for any stage in the race 
+                for (int riderIDcheck : riderTotalAdjustedElapsedTimes.keySet()) {
+                    if (!stage.getRidersAdjustedElapsedTimes().containsKey(riderIDcheck)) {
+                        LocalTime[] emptyArray = {};
+                        return emptyArray;
+                    }
+                }
+                if (riderTotalAdjustedElapsedTimes.containsKey(riderID)) {
+                    riderTotalAdjustedElapsedTimes.put(riderID, HelperFunction.sumTwoLocalTime(riderTotalAdjustedElapsedTimes.get(riderID), stage.getRidersAdjustedElapsedTimes().get(riderID)));
+                } else {
+                    riderTotalAdjustedElapsedTimes.put(riderID, stage.getRidersAdjustedElapsedTimes().get(riderID));
+                }
+            }
+        }
+
+        // Sort the entries in descending order of LocalTime values
+        ArrayList<Map.Entry<Integer, LocalTime>> sortedEntries = new ArrayList<>(riderTotalAdjustedElapsedTimes.entrySet());
+        Collections.sort(sortedEntries, (entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+
+        // Extract the keys into the GCrank array
+        LocalTime[] GCtimes = new LocalTime[sortedEntries.size()];
+        for (int i = 0; i < sortedEntries.size(); i++) {
+            GCtimes[i] = sortedEntries.get(i).getValue();
+        }
+        return GCtimes;
+    }
 }
    
