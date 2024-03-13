@@ -15,6 +15,10 @@ public class Rider implements Serializable{
         this.YearOfBirth = YearOfBirth;
     }
 
+    public String getRiderName() {
+        return riderName;
+    }
+
     public int getRiderID(){
         return riderID;
     }

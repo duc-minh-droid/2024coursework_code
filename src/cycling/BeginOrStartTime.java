@@ -10,5 +10,9 @@ class BeginOrStartTime implements StageTime {
     public LocalTime getTime() {
         return time;
     }
+
+    public CheckpointType getCheckpointType() {
+        return null;
+    };
     
 }

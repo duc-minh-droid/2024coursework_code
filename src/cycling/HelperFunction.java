@@ -145,7 +145,7 @@ public class HelperFunction {
         for (Race race : races.values()) {
             for (Stage stage : race.getStages()) {
                 if (stage.getStageID() == stageID) {
-                    return race.getRaceID();
+                    return race.getRaceId();
                 }
             }
         }
@@ -157,7 +157,7 @@ public class HelperFunction {
             for (Stage stage : race.getStages()) {
                 for (Checkpoint checkpoint : stage.getCheckpoints()) {
                     if (checkpoint.getCheckpointID() == checkpointID) {
-                        return race.getRaceID();
+                        return race.getRaceId();
                     }
                 }
             }
@@ -221,7 +221,7 @@ public class HelperFunction {
         return ridersIDs;
     }
 
-    public int getTeamIDByRiderID(int riderID, HashMap<Integer, Team> teams){
+    public static int getTeamIDByRiderID(int riderID, HashMap<Integer, Team> teams){
         for (Team team : teams.values()){
             for (int riderIDtemp : team.getRiders().keySet()){
                 if (riderIDtemp == riderID){

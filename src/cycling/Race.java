@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Race implements Serializable {
-    private final int raceID;
+    private final int raceId;
     private String name;
     private String description;
     private double length;
@@ -19,7 +19,7 @@ public class Race implements Serializable {
         HelperFunction hf = new HelperFunction();
         this.name = name;
         this.description = description;
-        this.raceID = hf.generateUniqueId();
+        this.raceId = hf.generateUniqueId();
     }
 
     public LinkedHashMap<Integer, Integer> getRidersTotalMountainPointsInRace() {
@@ -55,15 +55,14 @@ public class Race implements Serializable {
     //     return ridersRaceTotalMountainPoints;    
     // }
 
-    public int getRaceID() {
-        return raceID;
+    public int getRaceId(){
+        return raceId;
     }
 
     // get name
     public String getName() {
         return name;
     }
-
 
     public String getDescription() {
         return description;
@@ -81,5 +80,38 @@ public class Race implements Serializable {
         return stage.getStageID();    
     }
 
+    public static int[] getRaceIds( HashMap<Integer, Race> races) {
+        //create an int array to store raceID
+        int[] raceIds = new int[races.size()];
+        int index = 0;
+        
+        //iterate through the key(raceID) in hashmap races and add them to array
+        for (int raceID : races.keySet()) {
+            raceIds[index++] = raceID;
+        }
+        return raceIds;
+    }
+
+    public static int createRace(String name, String description,  HashMap<Integer, Race> races ){
+        Race race = new Race(name, description);
+        races.put(race.getRaceId(), race);
+        return race.getRaceId();
+    }
+
+    public static String viewRaceDetails(int raceId, HashMap<Integer, Race> races){
+        Race race = races.get(raceId);
+        String details = "Race's ID: " + race.getRaceId() + "\n" +
+                "Name: " + race.getName() + "\n" +
+                "Description: " + race.getDescription() + "\n" +
+                "Number of Stage: " + getNumberOfStages(raceId, races) + "\n" +
+                "Length: " + race.getLength() + "\n";
+        return details;
+    }
+    
+    public static int getNumberOfStages(int raceId, HashMap<Integer, Race> races ){
+        Race race = races.get(raceId);
+        return race.getStages().size();
+    }
+
+    }
    
-}
