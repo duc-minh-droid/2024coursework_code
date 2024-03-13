@@ -37,10 +37,12 @@ public class Stage implements Serializable {
         this.type = type;
     }
 
-    public LinkedHashMap<Integer, Integer> getRidersTotalMountainPointsInStage() {
+    public LinkedHashMap<Integer, Integer> getRidersTotalMountainPointsInStage(HashMap<Integer, Race> races) {
+        getRidersMountainPoints(races); //call for
         return ridersTotalMountainPointsInStage;
     }
-    public LinkedHashMap<Integer, Integer> getRidersTotalPointsInStage() {
+    public LinkedHashMap<Integer, Integer> getRidersTotalPointsInStage(HashMap<Integer, Race> races) {
+        getRidersPoints(races);
         return ridersTotalPointsInStage;
     }
 
@@ -50,6 +52,7 @@ public class Stage implements Serializable {
                 LocalTime[] times = checkpoint.getRiderResults().values().toArray(new LocalTime[0]);
                 Arrays.sort(times, Comparator.naturalOrder());
                 for (int i = 0; i < times.length; i++) {
+                    System.out.println(times[i] + " not equals to " + mountTime);
                     if (times[i].equals(mountTime)) {
                         return i;
                     }
@@ -101,15 +104,13 @@ public class Stage implements Serializable {
         int[] ridersRanks = getRidersRankInStage(races);
         int[] points = {};
         HelperFunction hf = new HelperFunction();
+        // Get each rider's points for each rider's rank
         for (int riderID : ridersRanks) {
-            if (!riderObjectResults.containsKey(riderID)  ) {
-                int[] emptyArray = {};
-                return emptyArray;
-            }
             ArrayList<StageTime> riderResults = riderObjectResults.get(riderID);
             int riderPoints = 0;
             int checkpointIndex = 0;
-            if (riderResults.size()-2 != checkpoints.size()) {
+            // Return empty array if a rider's result is not registered
+            if (!riderObjectResults.containsKey(riderID) || riderResults.size()-2 != checkpoints.size()  ) {
                 int[] emptyArray = {};
                 return emptyArray;
             }
@@ -120,7 +121,8 @@ public class Stage implements Serializable {
                             riderResults.get(0).getTime(), riderResults.get(riderResults.size()-1).getTime()
                         )
                     ), type);
-                
+            
+            // Add all intermediate sprint points in stage
             for (int i = 0; i < riderResults.size(); i++) {
                 if (i == 0 || i == riderResults.size() - 1) continue;
                 StageTime st = riderResults.get(i);
@@ -129,23 +131,14 @@ public class Stage implements Serializable {
                 int checkpointID = checkpoints.get(checkpointIndex).getCheckpointID();
                 
                 if (type == CheckpointType.SPRINT) {
-                    // Add intermediate sprint points
-                    riderPoints += hf.retrieveSprintPoint(
-                        calcSprintPositionCheckpoint(
-                            hf.getElapsedTime(
-                                riderResults.get(0).getTime(), time
-                            ), checkpointID
-                        ));
-                    
-                        checkpointIndex++;
+                    riderPoints += hf.retrieveSprintPoint(calcSprintPositionCheckpoint(time, checkpointID));
+                    checkpointIndex++;
                 }
             }
             points = Arrays.copyOf(points, points.length+1);
             points[points.length - 1] = riderPoints;
             ridersTotalPointsInStage.put(riderID, riderPoints);
-
         }
-
         return points;
     }
 
@@ -155,6 +148,7 @@ public class Stage implements Serializable {
         HelperFunction hf = new HelperFunction();
         // Get each rider's points for each rider's rank
         for (int riderID : ridersRanks) {
+            System.out.println();
             if (!riderObjectResults.containsKey(riderID)  ) {
                 int[] emptyArray = {};
                 return emptyArray;
@@ -175,12 +169,7 @@ public class Stage implements Serializable {
                 
                 int checkpointID = checkpoints.get(checkpointIndex).getCheckpointID();
                 if (type != CheckpointType.SPRINT) {
-                    riderMountainPoints += hf.retrieveMountainPoint(
-                        calcMountainPositionCheckpoint(
-                            hf.getElapsedTime(
-                                riderResults.get(0).getTime(), time
-                            ), checkpointID
-                        ), type);
+                    riderMountainPoints += hf.retrieveMountainPoint(calcMountainPositionCheckpoint(time, checkpointID), type);
                     checkpointIndex++;
                 }
             }
@@ -228,7 +217,6 @@ public class Stage implements Serializable {
     }
 
     public void recordRiderResult(int riderID, LocalTime[] checkpointTimes){
-        HelperFunction hf = new HelperFunction();
         Duration elapsedTime = Duration.between(checkpointTimes[0], checkpointTimes[checkpointTimes.length - 1]);
 
         // Convert elapsed time to nanos
@@ -243,22 +231,20 @@ public class Stage implements Serializable {
         updatedCheckpointTimes[checkpointTimes.length] = elapsedNano;
 
         ridersAdjustedElapsedTimes.put(riderID, elapsedNano);
-        convertElapsedTimesToAdjustedElapsedTimes();
         riderResults.put(riderID, updatedCheckpointTimes);
         ArrayList<StageTime> objectResult = new ArrayList<StageTime>();
-        for (int i = 0; i < updatedCheckpointTimes.length; i++) {
-            if (i == updatedCheckpointTimes.length - 1) {
-                continue;
-            } else if (i == 0 || i == updatedCheckpointTimes.length - 2) {
-                BeginOrStartTime time = new BeginOrStartTime(updatedCheckpointTimes[i]);
+        for (int i = 0; i < checkpointTimes.length; i++) {  
+            if (i == 0 || i == checkpointTimes.length - 1) {
+                BeginOrStartTime time = new BeginOrStartTime(checkpointTimes[i]);
                 objectResult.add(time);
             } else {
-                CheckpointTime time = new CheckpointTime(updatedCheckpointTimes[i], checkpoints.get(i-1).getCheckpointType());
+                CheckpointTime time = new CheckpointTime(checkpointTimes[i], checkpoints.get(i-1).getCheckpointType());
                 objectResult.add(time);
-                checkpoints.get(i-1).putRiderResult(riderID, hf.getElapsedTime(updatedCheckpointTimes[0],updatedCheckpointTimes[i]));
+                checkpoints.get(i-1).putRiderResult(riderID, checkpointTimes[i]);
             }
         }
         riderObjectResults.put(riderID, objectResult);
+        convertElapsedTimesToAdjustedElapsedTimes();
     }
 
     public void convertElapsedTimesToAdjustedElapsedTimes() {
@@ -297,7 +283,7 @@ public class Stage implements Serializable {
     }
 
     public LocalTime getRiderAdjustedElapsedTimeInStage(int riderId) {
-        convertElapsedTimesToAdjustedElapsedTimes();
+        // convertElapsedTimesToAdjustedElapsedTimes();
         for ( int ID : ridersAdjustedElapsedTimes.keySet()){
             if (ID == riderId){
                 return ridersAdjustedElapsedTimes.get(ID);
@@ -319,7 +305,7 @@ public class Stage implements Serializable {
     }
 
     public LinkedHashMap<Integer, LocalTime> getRidersAdjustedElapsedTimes() {
-        convertElapsedTimesToAdjustedElapsedTimes();
+        // convertElapsedTimesToAdjustedElapsedTimes();
         return ridersAdjustedElapsedTimes;
     }
 
