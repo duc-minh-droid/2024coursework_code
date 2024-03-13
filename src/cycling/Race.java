@@ -59,7 +59,6 @@ public class Race implements Serializable {
         return raceId;
     }
 
-    // get name
     public String getName() {
         return name;
     }
@@ -74,44 +73,68 @@ public class Race implements Serializable {
     public ArrayList<Stage> getStages() {
         return stages;
     }
-    public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type) {
-        Stage stage = new Stage(raceId, stageName, description, length, startTime, type);
-        stages.add(stage);
-        return stage.getStageID();    
-    }
+    
 
     public static int[] getRaceIds( HashMap<Integer, Race> races) {
         //create an int array to store raceID
         int[] raceIds = new int[races.size()];
+        
+        //create a counter
         int index = 0;
         
-        //iterate through the key(raceID) in hashmap races and add them to array
+        //iterate through the key(raceID) in races system and add them to array
         for (int raceID : races.keySet()) {
             raceIds[index++] = raceID;
         }
+
+        //return an array with raceId
         return raceIds;
     }
 
+
     public static int createRace(String name, String description,  HashMap<Integer, Race> races ){
         Race race = new Race(name, description);
+
+        //add the created race to races system
         races.put(race.getRaceId(), race);
+
+        //return the Id of the recent created race
         return race.getRaceId();
     }
 
-    public static String viewRaceDetails(int raceId, HashMap<Integer, Race> races){
-        Race race = races.get(raceId);
-        String details = "Race's ID: " + race.getRaceId() + "\n" +
-                "Name: " + race.getName() + "\n" +
-                "Description: " + race.getDescription() + "\n" +
-                "Number of Stage: " + getNumberOfStages(raceId, races) + "\n" +
-                "Length: " + race.getLength() + "\n";
-        return details;
-    }
-    
-    public static int getNumberOfStages(int raceId, HashMap<Integer, Race> races ){
-        Race race = races.get(raceId);
-        return race.getStages().size();
+   
+    public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime, StageType type) {
+        //create a new stage
+        Stage stage = new Stage(raceId, stageName, description, length, startTime, type);
+        
+        //add the created stage to the stages system
+        stages.add(stage);
+
+        //return the stageId of the recent created stage
+        return stage.getStageID();    
     }
 
+    public int getNumberOfStages(){
+        //return the number of created stages within the race
+        return stages.size();
     }
+
+    public int[] getRaceStages(){
+        //create an array with size of number of stages of the race
+        int[] raceStageIDs = new int[stages.size()];
+
+        //create a counter
+        int index = 0;
+
+        //iterate through all the stage in stages system and add their Id to the array
+        for (Stage stage : stages) {
+            raceStageIDs[index] = stage.getStageID();
+            index++;
+        }
+
+        //return the the array with stages' Id
+        return raceStageIDs;
+    }
+
+}
    

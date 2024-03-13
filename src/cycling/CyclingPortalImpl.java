@@ -213,7 +213,6 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public  int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
-
         if (name == null || name.isEmpty()) {
             throw new InvalidNameException("Race's name can not be empty");
         }
@@ -232,18 +231,26 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public String viewRaceDetails(int raceId) throws IDNotRecognisedException {
-        Race race = races.get(raceId);
-        if (race == null) {
+        if (!races.keySet().contains(raceId)) {
             throw new IDNotRecognisedException("Race not found");
         }
-        return Race.viewRaceDetails(raceId, races);
+        
+        Race race = races.get(raceId);
+        
+        //create a fomarted string containing details of the race
+        String details = "Race's ID: "       + race.getRaceId()         + "\n" +
+        "Name: "            + race.getName()           + "\n" +
+        "Description: "     + race.getDescription()    + "\n" +
+        "Number of Stage: " + getNumberOfStages(raceId) + "\n" +
+        "Length: "          + race.getLength()         + "\n";
+        return details;
     }
 
     public void removeRaceById(int raceId) throws IDNotRecognisedException {
-        Race race = races.get(raceId);
-        if (race == null) {
+        if (!races.keySet().contains(raceId)) {
             throw new IDNotRecognisedException("Race not found");
         }
+
         races.remove(raceId);
     }
 
@@ -251,47 +258,51 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (!races.keySet().contains(raceId)) {
             throw new IDNotRecognisedException("Race not found");
         }
-        return Race.getNumberOfStages(raceId, races);
+
+        Race race = races.get(raceId);
+        return race.getNumberOfStages();
     }
 
     public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
             StageType type)
             throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-        Race race = races.get(raceId);
-        if (race == null) {
+    
+        if (!races.keySet().contains(raceId)) {
             throw new IDNotRecognisedException("Race not found");
         }
+
         if (stageName == null || stageName.isEmpty()) {
             throw new InvalidNameException("Stage's name can not be empty");
         }
+
         if (stageName.length() > 30) {
             throw new InvalidNameException("Stage's name can not exceed 30 character");
         }
+
         if (stageName.contains(" ")) {
             throw new InvalidNameException("Stage's name can not contain white space");
         }
+
         if (length < 5.0) {
             throw new InvalidLengthException("The stage's length must be longer than 5km");
         }
+
         HelperFunction hf = new HelperFunction();
         if (hf.getStagesNames(races).contains(stageName)) {
             throw new IllegalNameException("This stage name is already existing");
         }
+
+        Race race = races.get(raceId);
         return race.addStageToRace(raceId, stageName, description, length, startTime, type);
     }
 
     public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-        Race race = races.get(raceId);
-        if (race == null) {
+        if (!races.keySet().contains(raceId)) {
             throw new IDNotRecognisedException("Race not found");
         }
-        int[] raceStageIDs = new int[getNumberOfStages(raceId)];
-        int index = 0;
-        for (Stage stage : race.getStages()) {
-            raceStageIDs[index] = stage.getStageID();
-            index++;
-        }
-        return raceStageIDs;
+        
+       Race race = races.get(raceId);
+       return race.getRaceStages();
     }
 
     public double getStageLength(int stageId) throws IDNotRecognisedException {
@@ -510,41 +521,29 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (hf.getTeamsNames(teams).contains(name)) {
             throw new IllegalNameException(("Team's name has already existed"));
         }
-        Team team = new Team(name, description);
-        teams.put(team.getTeamID(), team);
-        return team.getTeamID();
 
+        return Team.createTeam(name, description, teams);
     }
 
     public void removeTeam(int teamId) throws IDNotRecognisedException {
-        Team team = teams.get(teamId);
-        if (team == null) {
+        if (!teams.keySet().contains(teamId)) {
             throw new IDNotRecognisedException("Team not found");
         }
+
         teams.remove(teamId);
     }
 
     public int[] getTeams() {
-        int[] teamIds = new int[teams.size()];
-        int index = 0;
-        for (int teamID : teams.keySet()) {
-            teamIds[index++] = teamID;
-        }
-        return teamIds;
+        return Team.getTeams(teams);
     }
 
     public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
-        Team team = teams.get(teamId);
-        if (team == null) {
+        if (!teams.keySet().contains(teamId)) {
             throw new IDNotRecognisedException("Team not found");
         }
-        HashMap<Integer, Rider> riderList = team.getRiders();
-        int[] riderIDs = new int[riderList.size()];
-        int index = 0;
-        for (int riderID : riderList.keySet()) {
-            riderIDs[index++] = riderID;
-        }
-        return riderIDs;
+
+        Team team = teams.get(teamId);
+        return team.getTeamRiders();
 
     }
 
