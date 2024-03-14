@@ -27,36 +27,36 @@ public class HelperFunction {
         
         return points;
     }
-    public static LinkedHashMap<Integer, LocalTime> sortLinkedHashMapByValue(LinkedHashMap<Integer, LocalTime> map) {
-        /// Convert the LinkedHashMap entries to a list for sorting
-        List<Map.Entry<Integer, LocalTime>> entryList = new ArrayList<>(map.entrySet());
 
-        // Sort the list based on the values (LocalTime objects)
-        entryList.sort(Map.Entry.comparingByValue());
+    public static int compareLocalTime(LocalTime time1, LocalTime time2) {
+        return time1.compareTo(time2);
+    }
 
-        // Create a new LinkedHashMap to store the sorted entries
-        LinkedHashMap<Integer, LocalTime> sortedMap = new LinkedHashMap<>();
+    public static List<Integer> getSortedRiderIDs(Map<Integer, LocalTime> ridersElapsedTimes) {
+
+        // Create a list of Map.Entry objects to store rider IDs and elapsed times
+        List<Map.Entry<Integer, LocalTime>> entryList = new ArrayList<>(ridersElapsedTimes.entrySet());
+        entryList.sort((entry1, entry2) -> compareLocalTime(entry1.getValue(), entry2.getValue()));
+        // Extract the sorted rider IDs into a separate list
+        List<Integer> sortedRiderIDs = new ArrayList<>();
         for (Map.Entry<Integer, LocalTime> entry : entryList) {
-            sortedMap.put(entry.getKey(), entry.getValue());
+            sortedRiderIDs.add(entry.getKey());
         }
 
-        return sortedMap;
+        return sortedRiderIDs;
     }
 
     public static int[] sortHashMapByValues(LinkedHashMap<Integer, Integer> map) {
-        // Convert LinkedHashMap entries to a list
-        List<Map.Entry<Integer, Integer>> entryList = new LinkedList<>(map.entrySet());
+        // Create a list of Map.Entry objects to store key-value pairs
+        List<Map.Entry<Integer, Integer>> entryList = new ArrayList<>(map.entrySet());
 
-        // Sort the list based on values
-        entryList.sort(Map.Entry.comparingByValue());
+        // Sort the list based on values (descending order)
+        entryList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
 
-        // Create an array to store sorted keys
+        // Extract the sorted keys into an array
         int[] sortedKeys = new int[entryList.size()];
-
-        // Extract sorted keys into the array
-        int i = 0;
-        for (Map.Entry<Integer, Integer> entry : entryList) {
-            sortedKeys[i++] = entry.getKey();
+        for (int i = 0; i < entryList.size(); i++) {
+            sortedKeys[i] = entryList.get(i).getKey();
         }
 
         return sortedKeys;
@@ -75,6 +75,7 @@ public class HelperFunction {
     public static int retrieveSprintPoint(int position) {
         ArrayList<Integer> ISpoints = intermediateSprintPointsDistribution();
         return ISpoints.get(position);
+        
     }
 
     public static HashMap<CheckpointType, ArrayList<Integer>> MountainPointsDistribution(){

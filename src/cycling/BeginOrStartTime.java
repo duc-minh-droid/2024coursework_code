@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalTime;
 
-class BeginOrStartTime implements StageTime {
+class BeginOrStartTime implements StageTime, Serializable{
     private LocalTime time;
 
     public BeginOrStartTime(LocalTime time) {

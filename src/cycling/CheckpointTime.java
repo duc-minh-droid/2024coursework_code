@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalTime;
 
-class CheckpointTime implements StageTime {
+
+class CheckpointTime implements StageTime, Serializable {
     private LocalTime time;
     private CheckpointType type;
 

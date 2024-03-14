@@ -128,6 +128,7 @@ public class Race implements Serializable {
         int[] sortedKeys = HelperFunction.sortHashMapByValues(ridersTotalPointsInRace);
         return sortedKeys;
     }
+    
     public int[] getRidersGeneralClassificationRank() {
         
         HashMap<Integer, LocalTime> riderTotalAdjustedElapsedTimes = new HashMap<Integer, LocalTime>();
