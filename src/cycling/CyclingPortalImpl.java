@@ -809,6 +809,9 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
+        // After deleting the rider's results, do we still conclude his results after the race? 
+        // If we ignore his result in one stage, the time system won't work as intended as he will take less time than others
+        // One method that we have planned, is to remove the rider result in every stage to not interfere with the point and time system but that would change the functionality of the method.
         boolean isRiderIDWrong = false;
         boolean isStageIDWrong = false;
         if (HelperFunction.getRiderByID(riderId, teams) == null) {
