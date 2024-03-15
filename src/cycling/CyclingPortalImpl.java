@@ -466,39 +466,16 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
         int raceID = HelperFunction.getRaceIDByStageID(stageId, races);
         ArrayList<Stage> stages = races.get(raceID).getStages();
-        for (int i = 0; i < stages.size(); i++) {
-            if (stages.get(i).getStageID() == stageId) {
-                stages.remove(i);
+        // Use an iterator to remove the stage
+        Iterator<Stage> iterator = stages.iterator();
+        while (iterator.hasNext()) {
+            Stage stage = iterator.next();
+            if (stage.getStageID() == stageId) {
+                iterator.remove(); // Remove the stage using the iterator
                 break;
             }
         }
-        // for (Race race : races.values()) {
-        //     LinkedHashMap<Integer, Integer> riderTMPR = race.getRidersTotalMountainPointsInRace();
-        //     riderTMPR.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-        //     LinkedHashMap<Integer, Integer> riderTPR = race.getRidersTotalPointsInRace();
-        //     riderTPR.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            // for (Stage stage : race.getStages()) {
-            //     HashMap<Integer, LocalTime[]> riderRS = stage.getRiderResults();
-            //     riderRS.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            //     HashMap<Integer, ArrayList<StageTime>> riderORS = stage.getRiderObjectResults();
-            //     riderORS.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            //     LinkedHashMap<Integer, LocalTime> ridersAET = stage.getRidersAdjustedElapsedTimes();
-            //     ridersAET.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            //     LinkedHashMap<Integer, LocalTime> ridersET = stage.getRidersElapsed();
-            //     ridersET.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            //     LinkedHashMap<Integer, Integer> ridersTMPS = stage.getRidersTotalMountainPointsInStage();
-            //     ridersTMPS.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-
-            //     LinkedHashMap<Integer, Integer> ridersTPS = stage.getRidersTotalPointsInStage();
-            //     ridersTPS.entrySet().removeIf(entry -> entry.getKey().equals(riderId));
-            // }
-        // }
+        
     }
 
     public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
