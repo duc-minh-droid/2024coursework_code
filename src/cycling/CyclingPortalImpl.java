@@ -585,9 +585,11 @@ public class CyclingPortalImpl implements CyclingPortal {
         for (Stage stage : stages) {
             if (stage.getStageID() == stageID) {
                 ArrayList<Checkpoint> checkpoints = stage.getCheckpoints();
-                for (int i = 0; i < checkpoints.size(); i++) {
-                    if (checkpoints.get(i).getCheckpointID() == checkpointId) {
-                        checkpoints.remove(i);
+                Iterator<Checkpoint> iterator = checkpoints.iterator();
+                while (iterator.hasNext()) {
+                    Checkpoint checkpoint = iterator.next();
+                    if (checkpoint.getCheckpointID() == checkpointId) {
+                        iterator.remove(); // Remove the checkpoint using the iterator
                         break;
                     }
                 }
