@@ -821,12 +821,12 @@ public class CyclingPortalImpl implements CyclingPortal {
                 stage.getRiderObjectResults().remove(riderId);
             } else {
                 isStageIDWrong = true;
-                if (isRiderIDWrong)
-                    throw new IDNotRecognisedException("Stage's ID not recognised");
-                if (isStageIDWrong)
-                    throw new IDNotRecognisedException("Rider's ID not recognised");
             }
         }
+        if (isRiderIDWrong)
+            throw new IDNotRecognisedException("Stage's ID not recognised");
+        if (isStageIDWrong)
+            throw new IDNotRecognisedException("Rider's ID not recognised");
 
     }
 
