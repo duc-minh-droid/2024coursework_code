@@ -172,8 +172,10 @@ public class Race implements Serializable {
             int totalRiderPoints = 0;
             for (Stage stage : stages){
                 HashMap<Integer, Integer> ridersTotalPointsInStage = stage.getRidersTotalPointsInStage();
+                if(ridersTotalPointsInStage.get(riderID) == null) continue;
                 if (ridersTotalPointsInStage.keySet().contains(riderID)){
-                    totalRiderPoints += ridersTotalPointsInStage.get(riderID);               
+                    totalRiderPoints += ridersTotalPointsInStage.get(riderID);
+                    System.out.println(ridersTotalPointsInStage.get(riderID));               
                 }else {
                     int[] emptyArray = {};
                     return emptyArray;
@@ -197,6 +199,7 @@ public class Race implements Serializable {
             int totalRiderPoints = 0;
             for (Stage stage : stages){
                 HashMap<Integer, Integer> ridersTotalMountainPointsInStage = stage.getRidersTotalMountainPointsInStage();
+                if(ridersTotalMountainPointsInStage.get(riderID) == null) continue;
                     if (ridersTotalMountainPointsInStage.containsKey(riderID)){
                         totalRiderPoints += ridersTotalMountainPointsInStage.get(riderID);        
                     }else {

@@ -217,9 +217,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         System.out.println("Number of riders in team Sky after deletion: " + cp.getTeamRiders(teamSkyID).length);
         System.out.println("=====================================");
 
-        // System.out.println("Deleting Miller's result in stage 1");
-        // cp.deleteRiderResultsInStage(stage1ID, millerRBId);
-
+        
         System.out.println("Printing John's results in stage 1...");
         LocalTime[] johnResultsStage1 = cp.getRiderResultsInStage(stage1ID, johnSkyId);
         for (LocalTime lt : johnResultsStage1) {
@@ -231,11 +229,15 @@ public class CyclingPortalImpl implements CyclingPortal {
             System.out.println(lt);
         }
         System.out.println("=====================================");
-
+        
         System.out.println("Printing Fein's adjusted elapsed time in stage 2...");
         System.out.println(cp.getRiderAdjustedElapsedTimeInStage(stage2ID, feinRBId));
         System.out.println("Printing Miller's adjusted elapsed time in stage 2...");
         System.out.println(cp.getRiderAdjustedElapsedTimeInStage(stage2ID, millerRBId));
+        System.out.println("=====================================");
+        
+        System.out.println("Deleting Miller's result in stage 1");
+        cp.deleteRiderResultsInStage(stage1ID, millerRBId);
         System.out.println("=====================================");
 
         System.out.println("Printing riders' rank in stage 1...");
@@ -351,6 +353,10 @@ public class CyclingPortalImpl implements CyclingPortal {
         cp.loadCyclingPortal("Portal1.ser");
         System.out.println("Number of races after loading Cycling Portal: " + races.size());
         System.out.println("=====================================");
+
+        for(int i : HelperFunction.getStageByID(stage1ID, races).ridersTotalPointsInStage.keySet()){
+            System.out.println(HelperFunction.getStageByID(stage1ID, races).ridersTotalPointsInStage.get(i));
+        }
     }
 
     public int[] getRaceIds() {
@@ -817,21 +823,24 @@ public class CyclingPortalImpl implements CyclingPortal {
         if (HelperFunction.getRiderByID(riderId, teams) == null) {
             isRiderIDWrong = true;
         }
+        if (HelperFunction.getStageByID(stageId, races) == null){
+            isStageIDWrong = true;
+        }
 
         for (Stage stage : races.get(HelperFunction.getRaceIDByStageID(stageId, races)).getStages()) {
             if (stage.getStageID() == stageId) {
-                stage.getRiderResults().remove(riderId);
-                stage.getRiderObjectResults().remove(riderId);
-            } else {
-                isStageIDWrong = true;
+                stage.removeRiderResults(riderId);
+            // } else {
+            //     isStageIDWrong = true;
             }
         }
         if (isRiderIDWrong)
-            throw new IDNotRecognisedException("Stage's ID not recognised");
-        if (isStageIDWrong)
             throw new IDNotRecognisedException("Rider's ID not recognised");
+        if (isStageIDWrong)
+            throw new IDNotRecognisedException("Stage's ID not recognised");
 
     }
+    
 
     public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
 

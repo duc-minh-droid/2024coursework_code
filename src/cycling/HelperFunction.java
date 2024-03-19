@@ -29,6 +29,7 @@ public class HelperFunction {
     }
 
     public static int compareLocalTime(LocalTime time1, LocalTime time2) {
+        // System.out.println(time1 + " compare to " + time2);
         return time1.compareTo(time2);
     }
 
